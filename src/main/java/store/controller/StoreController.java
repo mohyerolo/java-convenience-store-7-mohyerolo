@@ -30,6 +30,7 @@ public class StoreController {
         outputView.printCurrentInventory();
 
         List<String> productData = FileReaderUtil.readFile(PRODUCTS_FILE);
-        Map<String, List<Product>> stringListMap = storeService.parseProducts(productData);
+        Map<String, List<Product>> organizedProducts = storeService.parseProducts(productData);
+        outputView.printProductInventory(organizedProducts);
     }
 }

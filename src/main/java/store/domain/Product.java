@@ -17,6 +17,22 @@ public class Product {
         this.promotion = fileLine[3];
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+
     private void validate(String[] fileLine) {
         validateProductField(fileLine);
         validateNameAndPromotion(fileLine);
