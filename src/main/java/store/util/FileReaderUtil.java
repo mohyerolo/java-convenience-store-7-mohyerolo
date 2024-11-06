@@ -28,6 +28,7 @@ public class FileReaderUtil {
     private static List<String> readLines(InputStream inputStream) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            br.readLine();
             return readAllLines(br);
         } catch (IOException e) {
             System.out.println(FILE_READ_ERROR);
