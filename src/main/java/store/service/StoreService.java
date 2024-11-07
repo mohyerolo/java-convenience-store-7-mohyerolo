@@ -1,34 +1,42 @@
 package store.service;
 
-import store.domain.Product;
+import store.domain.*;
+import store.util.FileReaderUtil;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StoreService {
-    private static final String DELIMITER = ",";
+    private static final String PRODUCTS_FILE = "products.md";
 
-    public Map<String, List<Product>> parseProducts(List<String> products) {
-        Map<String, List<Product>> organizedProducts = new LinkedHashMap<>();
-        addProductsWithSameName(products, organizedProducts);
-        return organizedProducts;
+    private static final String PROMOTIONS_FILE = "promotions.md";
+    private final ProductService productService;
+
+    public StoreService(final ProductService productService) {
+        this.productService = productService;
     }
 
-    private void addProductsWithSameName(final List<String> products, final Map<String, List<Product>> organizedProducts) {
-        for (String product : products) {
-            String[] productData = splitProduct(product);
-            organizedProducts.computeIfAbsent(productData[0], k -> new ArrayList<>())
-                    .add(createProduct(productData));
-        }
+    public Store makeConvenienceStore() {
+        Promotions promotions = makeConvenienceStorePromotion();
+        Map<String, List<Product>> organizedProducts = makeConvenienceStoreProduct(promotions);
+        return new Store(organizedProducts, promotions);
     }
 
-    private String[] splitProduct(String product) {
-        return product.split(DELIMITER);
+    private Map<String, List<Product>> makeConvenienceStoreProduct(final Promotions promotions) {
+        List<String> productData = FileReaderUtil.readFile(PRODUCTS_FILE);
+        return productService.parseProducts(productData, promotions);
     }
 
-    private Product createProduct(String[] productData) {
-        return new Product(productData);
+    private Promotions makeConvenienceStorePromotion() {
+        List<String> promotionData = FileReaderUtil.readFile(PROMOTIONS_FILE);
+        return new Promotions(parsePromotion(promotionData));
     }
+
+    private List<Promotion> parsePromotion(final List<String> promotionData) {
+        return promotionData.stream()
+                .map(PromotionFactory::createPromotion)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
 }
