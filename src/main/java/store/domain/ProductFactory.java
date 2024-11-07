@@ -6,11 +6,13 @@ import store.validator.FileValidator;
 public class ProductFactory {
     private static final String DELIMITER = ",";
 
-    public static Product createProduct(String productData) {
+    public static Product createProduct(String productData, Promotions promotions) {
         String[] productField = splitAndValidateProduct(productData);
         int price = Integer.parseInt(productField[1]);
         int quantity = Integer.parseInt(productField[2]);
-        return new Product(productField[0], price, quantity, productField[3]);
+        Promotion promotion = findProductPromotion(productField[3], promotions);
+
+        return new Product(productField[0], price, quantity, promotion);
     }
 
     private static String[] splitAndValidateProduct(String productData) {
@@ -25,5 +27,12 @@ public class ProductFactory {
         DataTypeValidator.validateString(productField[3]);
         DataTypeValidator.validateInt(productField[1]);
         DataTypeValidator.validateInt(productField[2]);
+    }
+
+    private static Promotion findProductPromotion(String productPromotion, Promotions promotions) {
+        if (!productPromotion.equals("null")) {
+            return promotions.findPromotion(productPromotion);
+        }
+        return null;
     }
 }

@@ -18,4 +18,8 @@ public enum PromotionType {
         }
         return TwoPlusOne;
     }
+
+    public int getFree() {
+        return free;
+    }
 }

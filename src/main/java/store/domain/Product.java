@@ -4,9 +4,9 @@ public class Product {
     private final String name;
     private final int price;
     private int quantity;
-    private final String promotion;
+    private final Promotion promotion;
 
-    public Product(final String name, final int price, final int quantity, final String promotion) {
+    public Product(final String name, final int price, final int quantity, final Promotion promotion) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -14,7 +14,7 @@ public class Product {
     }
 
     public boolean existsPromotion() {
-        return !promotion.equals("null");
+        return promotion != null;
     }
 
     public String getName() {
@@ -29,7 +29,7 @@ public class Product {
         return quantity;
     }
 
-    public String getPromotion() {
+    public Promotion getPromotion() {
         return promotion;
     }
 }

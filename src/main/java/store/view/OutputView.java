@@ -30,13 +30,12 @@ public class OutputView {
         System.out.println(sb);
     }
 
-    // TODO: promotion을 enum 사용해서 하도록 수정
     private String makeProductStatusSentence(Product product) {
         String defaultSentence = makeDefaultProductSentence(product);
-        if (product.getPromotion().equals("null")) {
+        if (product.getPromotion() == null) {
             return defaultSentence;
         }
-        return defaultSentence + " " + product.getPromotion();
+        return defaultSentence + " " + product.getPromotion().getName();
     }
 
     private String makeDefaultProductSentence(Product product) {

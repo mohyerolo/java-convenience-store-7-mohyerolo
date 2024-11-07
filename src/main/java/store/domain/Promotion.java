@@ -17,4 +17,15 @@ public class Promotion {
         this.endDate = endDate;
     }
 
+    public boolean isSamePromotion(String productPromotion) {
+        return name.equals(productPromotion);
+    }
+
+    public int getPromotionFreeProduct() {
+        return promotionType.getFree();
+    }
+
+    public String getName() {
+        return name;
+    }
 }
