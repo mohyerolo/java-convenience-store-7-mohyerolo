@@ -1,7 +1,7 @@
 package store.controller;
 
 import store.domain.Product;
-import store.service.StoreService;
+import store.service.ProductService;
 import store.util.FileReaderUtil;
 import store.view.InputView;
 import store.view.OutputView;
@@ -17,12 +17,12 @@ public class StoreController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final StoreService storeService;
+    private final ProductService productService;
 
-    public StoreController(final InputView inputView, final OutputView outputView, final StoreService storeService) {
+    public StoreController(final InputView inputView, final OutputView outputView, final ProductService productService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.storeService = storeService;
+        this.productService = productService;
     }
 
     public void purchase() {
@@ -30,7 +30,9 @@ public class StoreController {
         outputView.printCurrentInventory();
 
         List<String> productData = FileReaderUtil.readFile(PRODUCTS_FILE);
-        Map<String, List<Product>> organizedProducts = storeService.parseProducts(productData);
+        Map<String, List<Product>> organizedProducts = productService.parseProducts(productData);
         outputView.printProductInventory(organizedProducts);
+
+        List<String> promotionData = FileReaderUtil.readFile(PROMOTIONS_FILE);
     }
 }
