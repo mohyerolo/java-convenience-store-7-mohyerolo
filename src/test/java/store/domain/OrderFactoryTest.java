@@ -2,6 +2,7 @@ package store.domain;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.domain.order.OrderFactory;
 import store.service.ProductService;
 import store.service.StoreService;
 

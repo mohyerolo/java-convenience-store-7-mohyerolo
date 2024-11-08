@@ -1,7 +1,7 @@
 package store.dto;
 
-import store.domain.Product;
-import store.domain.Promotion;
+import store.domain.product.Product;
+import store.domain.promotion.Promotion;
 
 public class ProductDto {
     private final String name;

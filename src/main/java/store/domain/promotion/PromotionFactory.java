@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.promotion;
 
 import store.constant.PromotionType;
 import store.validator.DataTypeValidator;

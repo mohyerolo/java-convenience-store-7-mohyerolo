@@ -1,6 +1,6 @@
 package store.dto;
 
-import store.domain.ProductStorage;
+import store.domain.product.ProductStorage;
 
 import java.util.List;
 import java.util.Map;

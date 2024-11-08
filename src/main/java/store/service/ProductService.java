@@ -1,9 +1,9 @@
 package store.service;
 
-import store.domain.Product;
-import store.domain.ProductFactory;
-import store.domain.ProductStorage;
-import store.domain.Promotions;
+import store.domain.product.Product;
+import store.domain.product.ProductFactory;
+import store.domain.product.ProductStorage;
+import store.domain.promotion.Promotions;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

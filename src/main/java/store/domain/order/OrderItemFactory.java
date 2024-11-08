@@ -1,5 +1,6 @@
-package store.domain;
+package store.domain.order;
 
+import store.domain.Store;
 import store.exception.CustomIllegalArgException;
 import store.validator.DataTypeValidator;
 

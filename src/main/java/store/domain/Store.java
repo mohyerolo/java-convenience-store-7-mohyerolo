@@ -1,5 +1,8 @@
 package store.domain;
 
+import store.domain.product.ProductStorage;
+import store.domain.promotion.Promotions;
+
 public class Store {
     private final ProductStorage productStorage;
     private final Promotions promotions;

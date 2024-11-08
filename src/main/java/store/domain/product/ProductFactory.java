@@ -1,5 +1,7 @@
-package store.domain;
+package store.domain.product;
 
+import store.domain.promotion.Promotion;
+import store.domain.promotion.Promotions;
 import store.validator.DataTypeValidator;
 import store.validator.FileValidator;
 

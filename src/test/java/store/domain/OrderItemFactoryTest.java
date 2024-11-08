@@ -3,6 +3,8 @@ package store.domain;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.domain.order.OrderItem;
+import store.domain.order.OrderItemFactory;
 import store.service.ProductService;
 import store.service.StoreService;
 

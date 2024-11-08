@@ -4,6 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.domain.product.Product;
+import store.domain.product.ProductFactory;
+import store.domain.promotion.Promotion;
+import store.domain.promotion.PromotionFactory;
+import store.domain.promotion.Promotions;
 
 import java.util.List;
 

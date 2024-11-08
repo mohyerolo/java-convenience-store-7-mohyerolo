@@ -1,6 +1,10 @@
 package store.service;
 
 import store.domain.*;
+import store.domain.product.ProductStorage;
+import store.domain.promotion.Promotion;
+import store.domain.promotion.PromotionFactory;
+import store.domain.promotion.Promotions;
 import store.util.FileReaderUtil;
 
 import java.util.List;
