@@ -1,12 +1,11 @@
 package store.domain;
 
+import java.util.List;
+
 public class Order {
-    private final String productName;
-    private final int quantity;
+    private final List<OrderItem> orders;
 
-    public Order(final String productName, final int quantity) {
-        this.productName = productName;
-        this.quantity = quantity;
+    public Order(final List<OrderItem> orders) {
+        this.orders = orders;
     }
-
 }
