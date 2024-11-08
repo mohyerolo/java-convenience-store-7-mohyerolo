@@ -5,21 +5,26 @@ import store.exception.CustomIllegalArgException;
 import store.validator.DataTypeValidator;
 
 public class OrderItemFactory {
+    private static final String PREFIX_SUFFIX_REPLACE_REG_EXP = "^\\[|]$";
     private static final String DELIMITER = "-";
     private static final int orderFieldSize = 2;
     private static final String INPUT_TYPE_ERROR = "올바르지 않은 형식으로 입력했습니다.";
     private static final String NON_EXIST_PRODUCT = "존재하지 않는 상품입니다.";
     private static final String EXCEEDED_STOCK = "재고 수량을 초과하여 구매할 수 없습니다.";
 
-    public static OrderItem takeOrder(String orderData, Store store) {
+    public static OrderItem createOrderItem(String orderData, Store store) {
         String[] orderFields = splitAndValidateOrder(orderData, store);
         return new OrderItem(orderFields[0], Integer.parseInt(orderFields[1]));
     }
 
     private static String[] splitAndValidateOrder(String orderData, Store store) {
-        String[] orderFields = orderData.split(DELIMITER);
+        String[] orderFields = removeSquareBrackets(orderData).split(DELIMITER);
         validateOrder(orderFields, store);
         return orderFields;
+    }
+
+    private static String removeSquareBrackets(String orderData) {
+        return orderData.replaceAll(PREFIX_SUFFIX_REPLACE_REG_EXP, "");
     }
 
     private static void validateOrder(String[] orderFields, Store store) {

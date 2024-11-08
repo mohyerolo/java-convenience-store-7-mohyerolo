@@ -22,7 +22,7 @@ class OrderItemFactoryTest {
 
     @Test
     void 주문_하나_생성_성공() {
-        assertThat(OrderItemFactory.takeOrder("사이다-10", store))
+        assertThat(OrderItemFactory.createOrderItem("사이다-10", store))
                 .isInstanceOf(OrderItem.class);
     }
 
@@ -34,7 +34,7 @@ class OrderItemFactoryTest {
     })
     void 주문_상품_형식_에러(String input) {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.takeOrder(input, store))
+                .isThrownBy(() -> OrderItemFactory.createOrderItem(input, store))
                 .withMessageContaining(TYPE_ERROR);
 
     }
@@ -42,14 +42,14 @@ class OrderItemFactoryTest {
     @Test
     void 없는_상품_주문() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.takeOrder("스모어초콜릿-1", store))
+                .isThrownBy(() -> OrderItemFactory.createOrderItem("스모어초콜릿-1", store))
                 .withMessageContaining(NON_EXIST);
     }
 
     @Test
     void 재고_초과() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.takeOrder("사이다-100", store))
+                .isThrownBy(() -> OrderItemFactory.createOrderItem("사이다-100", store))
                 .withMessageContaining(EXCEEDED_STOCK);
     }
 }

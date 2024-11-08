@@ -25,14 +25,14 @@ class OrderFactoryTest {
     })
     void 주문서_형식_에러(String input) {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderFactory.takeOrder(input, store));
+                .isThrownBy(() -> OrderFactory.createOrder(input, store));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"[사이다-1]", "[사이다-1],[콜라-1]",})
+    @ValueSource(strings = {"[사이다-1]", "[사이다-1],[콜라-1]"})
     void 주문서_형식_정상적(String input) {
         assertThatNoException()
-                .isThrownBy(() -> OrderFactory.takeOrder(input, store));
+                .isThrownBy(() -> OrderFactory.createOrder(input, store));
     }
 
 }
