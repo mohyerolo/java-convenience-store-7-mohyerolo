@@ -1,15 +1,12 @@
 package store.controller;
 
-import store.domain.Product;
 import store.domain.Store;
-import store.dto.ProductDto;
+import store.dto.ProductStorageDto;
 import store.service.StoreService;
 import store.view.InputView;
 import store.view.OutputView;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Supplier;
 
 public class StoreController {
     private final InputView inputView;
@@ -27,17 +24,22 @@ public class StoreController {
         outputView.printCurrentInventory();
 
         Store store = storeService.makeConvenienceStore();
-        outputView.printProductInventory(makeProductDto(store.getProducts()));
+        outputView.printProductStorage(makeProductDto(store));
 
+        executeWithRetry(inputView::readBuyProductAndQuantity);
     }
 
-    private Map<String, List<ProductDto>> makeProductDto(Map<String, List<Product>> products) {
-        return products.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> entry.getValue().stream()
-                                .map(ProductDto::new)
-                                .collect(Collectors.toUnmodifiableList())
-                ));
+    private ProductStorageDto makeProductDto(Store store) {
+        return ProductStorageDto.from(store.getProductStorage());
+    }
+
+    private static <T> T executeWithRetry(Supplier<T> action) {
+        while (true) {
+            try {
+                return action.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

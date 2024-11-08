@@ -1,10 +1,9 @@
 package store.view;
 
 import store.dto.ProductDto;
+import store.dto.ProductStorageDto;
 
 import java.text.NumberFormat;
-import java.util.List;
-import java.util.Map;
 
 public class OutputView {
     private static final String OUTPUT_GREETINGS = "안녕하세요. W편의점입니다.";
@@ -21,13 +20,12 @@ public class OutputView {
         System.out.println(OUTPUT_CURRENT_PRODUCT_INVENTORY);
     }
 
-    public void printProductInventory(Map<String, List<ProductDto>> products) {
+    public void printProductStorage(ProductStorageDto storageDto) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, List<ProductDto>> entry : products.entrySet()) {
-            for (ProductDto product : entry.getValue()) {
-                sb.append(makeProductStatusSentence(product)).append('\n');
-            }
-        }
+        storageDto.getProducts().entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream())
+                .map(this::makeProductStatusSentence)
+                .forEach(sentence -> sb.append(sentence).append('\n'));
         System.out.println(sb);
     }
 

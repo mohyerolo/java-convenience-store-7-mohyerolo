@@ -1,18 +1,24 @@
 package store.domain;
 
-import java.util.List;
-import java.util.Map;
-
 public class Store {
-    private final Map<String, List<Product>> products;
+    private final ProductStorage productStorage;
     private final Promotions promotions;
 
-    public Store(final Map<String, List<Product>> products, final Promotions promotions) {
-        this.products = products;
+    public Store(final ProductStorage productStorage, final Promotions promotions) {
+        this.productStorage = productStorage;
         this.promotions = promotions;
     }
 
-    public Map<String, List<Product>> getProducts() {
-        return products;
+    public boolean isStoreHaveProduct(String productName) {
+        return productStorage.containsProduct(productName);
     }
+
+    public boolean isStockOk(String productName, int requiredQuantity) {
+        return productStorage.isProductStockAvailable(productName, requiredQuantity);
+    }
+
+    public ProductStorage getProductStorage() {
+        return productStorage;
+    }
+
 }

@@ -4,7 +4,6 @@ import store.domain.*;
 import store.util.FileReaderUtil;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StoreService {
@@ -19,11 +18,11 @@ public class StoreService {
 
     public Store makeConvenienceStore() {
         Promotions promotions = makeConvenienceStorePromotion();
-        Map<String, List<Product>> organizedProducts = makeConvenienceStoreProduct(promotions);
-        return new Store(organizedProducts, promotions);
+        ProductStorage productStorage = makeConvenienceStoreProduct(promotions);
+        return new Store(productStorage, promotions);
     }
 
-    private Map<String, List<Product>> makeConvenienceStoreProduct(final Promotions promotions) {
+    private ProductStorage makeConvenienceStoreProduct(final Promotions promotions) {
         List<String> productData = FileReaderUtil.readFile(PRODUCTS_FILE);
         return productService.parseProducts(productData, promotions);
     }

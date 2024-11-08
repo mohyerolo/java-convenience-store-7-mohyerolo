@@ -2,8 +2,8 @@ package store.service;
 
 import store.domain.Product;
 import store.domain.ProductFactory;
+import store.domain.ProductStorage;
 import store.domain.Promotions;
-import store.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,7 +12,12 @@ import java.util.Map;
 
 public class ProductService {
 
-    public Map<String, List<Product>> parseProducts(final List<String> products, final Promotions promotions) {
+    public ProductStorage parseProducts(final List<String> products, final Promotions promotions) {
+        Map<String, List<Product>> organizedProducts = organizeProducts(products, promotions);
+        return new ProductStorage(organizedProducts);
+    }
+
+    private Map<String, List<Product>> organizeProducts(final List<String> products, final Promotions promotions) {
         Map<String, List<Product>> organizedProducts = new LinkedHashMap<>();
         addProductsWithSameName(products, promotions, organizedProducts);
         checkPromoProductHaveNormalStock(organizedProducts);
@@ -30,11 +35,14 @@ public class ProductService {
 
     private void checkPromoProductHaveNormalStock(final Map<String, List<Product>> organizedProducts) {
         for (Map.Entry<String, List<Product>> entry : organizedProducts.entrySet()) {
-            if (entry.getValue().getFirst().getPromotion() != null && entry.getValue().size() == 1) {
+            if (shouldAddDummyProduct(entry)) {
                 Product promoProduct = entry.getValue().getFirst();
                 entry.getValue().add(new Product(promoProduct.getName(), promoProduct.getPrice(), 0, null));
             }
         }
     }
 
+    private boolean shouldAddDummyProduct(Map.Entry<String, List<Product>> entry) {
+        return entry.getValue().getFirst().getPromotion() != null && entry.getValue().size() == 1;
+    }
 }
