@@ -42,6 +42,10 @@ public class OrderItem {
         quantity -= cancelQuantity;
     }
 
+    public void addDuplicatedOrderQuantity(OrderItem duplicatedOrderItem) {
+        quantity += duplicatedOrderItem.quantity;
+    }
+
     public String getOrderProductName() {
         return productName;
     }

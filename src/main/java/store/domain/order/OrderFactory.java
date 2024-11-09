@@ -6,6 +6,7 @@ import store.exception.CustomIllegalArgException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderFactory {
 
@@ -23,8 +24,9 @@ public class OrderFactory {
 
     private static List<OrderItem> makeEachOrderItem(String[] splitOrder, Store store) {
         List<OrderItem> orderItems = new ArrayList<>();
-        for (String orderItem : splitOrder) {
-            orderItems.add(OrderItemFactory.createOrderItem(orderItem, store));
+        for (String orderItemData : splitOrder) {
+            OrderItem orderItem = OrderItemFactory.createOrderItem(orderItemData, store);
+            addOrUpdateOrderItems(orderItems, orderItem);
         }
         return orderItems;
     }
@@ -38,4 +40,19 @@ public class OrderFactory {
             throw new CustomIllegalArgException(INPUT_TYPE_ERROR);
         }
     }
+
+    private static void addOrUpdateOrderItems(List<OrderItem> orderItems, OrderItem createdOrderItem) {
+        Optional<OrderItem> alreadyExistingOrderItem = findAlreadyExistingOrderItem(orderItems, createdOrderItem.getOrderProductName());
+        alreadyExistingOrderItem.ifPresentOrElse(
+                firstReceivedOrderItem -> firstReceivedOrderItem.addDuplicatedOrderQuantity(createdOrderItem),
+                () -> orderItems.add(createdOrderItem)
+        );
+    }
+
+    private static Optional<OrderItem> findAlreadyExistingOrderItem(List<OrderItem> orderItems, String productName) {
+        return orderItems.stream()
+                .filter(orderItem -> orderItem.getOrderProductName().equals(productName))
+                .findFirst();
+    }
+
 }
