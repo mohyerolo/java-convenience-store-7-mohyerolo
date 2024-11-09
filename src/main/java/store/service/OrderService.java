@@ -1,5 +1,6 @@
 package store.service;
 
+import store.constant.PromoProductStatus;
 import store.domain.Store;
 import store.domain.order.Order;
 import store.domain.order.OrderAppliedPromotion;
@@ -29,7 +30,8 @@ public class OrderService {
 
     private OrderAppliedPromotion createOrderAppliedPromotion(OrderItem orderItem) {
         int promotionSets = orderItem.calcPromotionSets();
-        return new OrderAppliedPromotion(orderItem, promotionSets);
+        PromoProductStatus orderProductPromoStatus = orderItem.getQuantityStatusAfterApplyPromotion(promotionSets);
+        return new OrderAppliedPromotion(orderItem, promotionSets, orderProductPromoStatus);
     }
 
 }

@@ -31,9 +31,18 @@ public enum PromotionType {
         return TwoPlusOne;
     }
 
+    public int getPromoQuantity() {
+        return buy + free;
+    }
+
+    public int getBuy() {
+        return buy;
+    }
+
     public int getFree() {
         return free;
     }
+
 
     public abstract int calcPromoSets(int orderQuantity, int productStock);
 }

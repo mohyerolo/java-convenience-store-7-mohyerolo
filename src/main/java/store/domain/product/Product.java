@@ -23,6 +23,14 @@ public class Product {
         return promotion.calcPromotionSets(orderQuantity, quantity);
     }
 
+    public int getPromotionQuantity(int promotionSets) {
+        return promotion.getPromoQuantity(promotionSets);
+    }
+
+    public boolean isProductQuantityAvailable(int orderQuantity) {
+        return quantity >= orderQuantity;
+    }
+
     public String getName() {
         return name;
     }

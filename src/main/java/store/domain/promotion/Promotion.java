@@ -36,6 +36,10 @@ public class Promotion {
         return promotionType.calcPromoSets(orderQuantity, productStock);
     }
 
+    public int getPromoQuantity(int promoSets) {
+        return promoSets * promotionType.getPromoQuantity();
+    }
+
     public String getName() {
         return name;
     }

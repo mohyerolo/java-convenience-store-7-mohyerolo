@@ -1,12 +1,16 @@
 package store.domain.order;
 
-public class OrderAppliedPromotion {
-    private OrderItem orderItem;
-    private int promotionSets;
+import store.constant.PromoProductStatus;
 
-    public OrderAppliedPromotion(final OrderItem orderItem, final int promotionSets) {
+public class OrderAppliedPromotion {
+    private final OrderItem orderItem;
+    private int promotionSets;
+    private PromoProductStatus orderProductPromoQuantityStatus;
+
+    public OrderAppliedPromotion(final OrderItem orderItem, final int promotionSets, final PromoProductStatus orderProductPromoQuantityStatus) {
         this.orderItem = orderItem;
         this.promotionSets = promotionSets;
+        this.orderProductPromoQuantityStatus = orderProductPromoQuantityStatus;
     }
 
 }
