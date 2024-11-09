@@ -17,4 +17,8 @@ public class OrderService {
         return order.checkOrderItemCanAppliedPromotion();
     }
 
+    public void applyPromotionsToOrder(Order order, List<OrderItem> promotionExistOrderItems) {
+        order.updateOrderStatus(promotionExistOrderItems);
+    }
+
 }

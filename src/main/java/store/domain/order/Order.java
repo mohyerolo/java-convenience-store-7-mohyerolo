@@ -20,4 +20,13 @@ public class Order {
         return promotionAvailableOrderItems;
     }
 
+    public void updateOrderStatus(List<OrderItem> promotionExistOrderItems) {
+        for (OrderItem promotionOrderItem : promotionExistOrderItems) {
+            orders.stream()
+                    .filter(orderItem -> orderItem.getOrderProductName().equals(promotionOrderItem.getOrderProductName()))
+                    .findFirst()
+                    .ifPresent(orderItem -> orderItem.applyOrderQuantityPromo(promotionOrderItem));
+        }
+    }
+
 }

@@ -46,6 +46,10 @@ public class OrderItem {
         quantity += duplicatedOrderItem.quantity;
     }
 
+    public void applyOrderQuantityPromo(OrderItem orderItem) {
+        quantity = orderItem.quantity;
+    }
+
     public String getOrderProductName() {
         return productName;
     }

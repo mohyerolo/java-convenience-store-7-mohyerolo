@@ -40,6 +40,8 @@ public class StoreController {
         Order order = takeOrder(store);
         List<OrderItem> promotionExistOrderItems = orderService.checkPromotionApplied(order);
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
+        orderService.applyPromotionsToOrder(order, promotionExistOrderItems);
+
     }
 
     private ProductStorageDto makeProductDto(final Store store) {
