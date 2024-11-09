@@ -12,10 +12,10 @@ public class Order {
         this.orders = orders;
     }
 
-    public List<OrderItem> checkOrderItemCanAppliedPromotion(Store store) {
+    public List<OrderItem> checkOrderItemCanAppliedPromotion() {
         List<OrderItem> promotionAvailableOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orders) {
-            if (orderItem.isOrderItemCanAppliedPromotion(store)) {
+            if (orderItem.isOrderProductHavePromotion()) {
                 promotionAvailableOrderItems.add(orderItem);
             }
         }

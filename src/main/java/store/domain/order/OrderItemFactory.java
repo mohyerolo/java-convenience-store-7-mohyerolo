@@ -1,6 +1,8 @@
 package store.domain.order;
 
 import store.domain.Store;
+import store.domain.product.Product;
+import store.domain.promotion.Promotion;
 import store.exception.CustomIllegalArgException;
 import store.validator.DataTypeValidator;
 
@@ -14,7 +16,8 @@ public class OrderItemFactory {
 
     public static OrderItem createOrderItem(String orderData, Store store) {
         String[] orderFields = splitAndValidateOrder(orderData, store);
-        return new OrderItem(orderFields[0], Integer.parseInt(orderFields[1]));
+        Product orderProduct = getOrderProduct(orderFields[0], store);
+        return new OrderItem(orderFields[0], Integer.parseInt(orderFields[1]), orderProduct);
     }
 
     private static String[] splitAndValidateOrder(String orderData, Store store) {
@@ -48,5 +51,9 @@ public class OrderItemFactory {
         if (!store.isStockOk(productName, Integer.parseInt(quantity))) {
             throw new CustomIllegalArgException(EXCEEDED_STOCK);
         }
+    }
+
+    private static Product getOrderProduct(String productName, Store store) {
+        return store.getOrderProduct(productName);
     }
 }

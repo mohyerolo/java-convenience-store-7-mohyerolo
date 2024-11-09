@@ -13,8 +13,8 @@ public class OrderService {
         return OrderFactory.createOrder(order, store);
     }
 
-    public List<OrderItem> checkPromotionApplied(Order order, Store store) {
-        return order.checkOrderItemCanAppliedPromotion(store);
+    public List<OrderItem> checkPromotionApplied(Order order) {
+        return order.checkOrderItemCanAppliedPromotion();
     }
 
 }

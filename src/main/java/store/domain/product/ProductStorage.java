@@ -1,5 +1,7 @@
 package store.domain.product;
 
+import store.domain.promotion.Promotion;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +22,8 @@ public class ProductStorage {
         return productQuantity >= requiredQuantity;
     }
 
-    public boolean isProductHasAvailablePromotion(String productName) {
-        List<Product> products = organizedProducts.get(productName);
-        if (products.size() == 1) {
-            return false;
-        }
-        return products.getFirst().existsAvailablePromotion();
+    public Product getOrderProduct(String productName) {
+        return organizedProducts.get(productName).getFirst();
     }
 
     public Map<String, List<Product>> getOrganizedProducts() {

@@ -1,6 +1,8 @@
 package store.domain;
 
+import store.domain.product.Product;
 import store.domain.product.ProductStorage;
+import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
 
 public class Store {
@@ -20,8 +22,8 @@ public class Store {
         return productStorage.isProductStockAvailable(productName, requiredQuantity);
     }
 
-    public boolean isProductCanAppliedPromotion(String productName) {
-        return productStorage.isProductHasAvailablePromotion(productName);
+    public Product getOrderProduct(String productName) {
+        return productStorage.getOrderProduct(productName);
     }
 
     public ProductStorage getProductStorage() {

@@ -16,15 +16,13 @@ public class StoreController {
     private final InputView inputView;
     private final OutputView outputView;
     private final StoreService storeService;
-    private final OrderService orderService;
-
+    private OrderService orderService;
 
     public StoreController(final InputView inputView, final OutputView outputView,
                            final StoreService storeService, final OrderService orderService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.storeService = storeService;
-        this.orderService = orderService;
     }
 
     public void purchase() {
@@ -35,7 +33,7 @@ public class StoreController {
         outputView.printProductStorage(makeProductDto(store));
 
         Order order = takeOrder(store);
-        List<OrderItem> promotionAppliedOrderItems = orderService.checkPromotionApplied(order, store);
+        List<OrderItem> promotionExistOrderItems = orderService.checkPromotionApplied(order);
 
     }
 

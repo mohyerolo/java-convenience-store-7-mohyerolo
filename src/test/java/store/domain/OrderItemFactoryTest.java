@@ -2,6 +2,7 @@ package store.domain;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import store.domain.order.OrderItem;
 import store.domain.order.OrderItemFactory;
@@ -51,5 +52,12 @@ class OrderItemFactoryTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> OrderItemFactory.createOrderItem("사이다-100", store))
                 .withMessageContaining(EXCEEDED_STOCK);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"사이다-10,true", "감자칩-1,true", "물-1,false"})
+    void 주문_상품에_해당하는_프로모션이_들어감(String orderData, boolean promotion) {
+        OrderItem orderItem = OrderItemFactory.createOrderItem(orderData, store);
+        assertThat(orderItem.isOrderProductHavePromotion()).isEqualTo(promotion);
     }
 }

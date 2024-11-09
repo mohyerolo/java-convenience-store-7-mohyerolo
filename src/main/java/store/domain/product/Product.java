@@ -15,9 +15,8 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public boolean existsAvailablePromotion() {
-        if (promotion == null) return false;
-        return promotion.isAvailablePromotion();
+    public boolean isProductHavePromotion() {
+        return promotion != null;
     }
 
     public String getName() {
