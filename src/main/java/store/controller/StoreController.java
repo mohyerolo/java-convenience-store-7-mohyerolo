@@ -2,12 +2,14 @@ package store.controller;
 
 import store.domain.Store;
 import store.domain.order.Order;
+import store.domain.order.OrderItem;
 import store.dto.ProductStorageDto;
 import store.service.OrderService;
 import store.service.StoreService;
 import store.view.InputView;
 import store.view.OutputView;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class StoreController {
@@ -33,6 +35,8 @@ public class StoreController {
         outputView.printProductStorage(makeProductDto(store));
 
         Order order = takeOrder(store);
+        List<OrderItem> promotionAppliedOrderItems = orderService.checkPromotionApplied(order, store);
+
     }
 
     private ProductStorageDto makeProductDto(Store store) {

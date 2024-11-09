@@ -20,6 +20,10 @@ public class Store {
         return productStorage.isProductStockAvailable(productName, requiredQuantity);
     }
 
+    public boolean isProductCanAppliedPromotion(String productName) {
+        return productStorage.isProductHasAvailablePromotion(productName);
+    }
+
     public ProductStorage getProductStorage() {
         return productStorage;
     }

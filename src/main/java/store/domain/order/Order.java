@@ -1,5 +1,8 @@
 package store.domain.order;
 
+import store.domain.Store;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -8,4 +11,15 @@ public class Order {
     public Order(final List<OrderItem> orders) {
         this.orders = orders;
     }
+
+    public List<OrderItem> checkOrderItemCanAppliedPromotion(Store store) {
+        List<OrderItem> promotionAvailableOrderItems = new ArrayList<>();
+        for (OrderItem orderItem : orders) {
+            if (orderItem.isOrderItemCanAppliedPromotion(store)) {
+                promotionAvailableOrderItems.add(orderItem);
+            }
+        }
+        return promotionAvailableOrderItems;
+    }
+
 }

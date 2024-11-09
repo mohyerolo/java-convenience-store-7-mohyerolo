@@ -20,6 +20,14 @@ public class ProductStorage {
         return productQuantity >= requiredQuantity;
     }
 
+    public boolean isProductHasAvailablePromotion(String productName) {
+        List<Product> products = organizedProducts.get(productName);
+        if (products.size() == 1) {
+            return false;
+        }
+        return products.getFirst().existsAvailablePromotion();
+    }
+
     public Map<String, List<Product>> getOrganizedProducts() {
         return organizedProducts;
     }

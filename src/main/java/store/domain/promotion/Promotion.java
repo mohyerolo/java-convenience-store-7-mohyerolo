@@ -1,8 +1,10 @@
 package store.domain.promotion;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import store.constant.PromotionType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Promotion {
     private final String name;
@@ -23,6 +25,11 @@ public class Promotion {
 
     public int getPromotionFreeProduct() {
         return promotionType.getFree();
+    }
+
+    public boolean isAvailablePromotion() {
+        LocalDateTime now = DateTimes.now();
+        return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
     public String getName() {
