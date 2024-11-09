@@ -1,18 +1,20 @@
 package store.constant;
 
 public enum PromotionType {
-    OnePlusOne(1, 1) {
+    ONE_PLUS_ONE(1, 1) {
         @Override
-        public int calcPromoSets(int orderQuantity, int productStock) {
+        public int calcPromoQuantity(int orderQuantity, int productStock) {
             int applicableQuantity = Math.min(orderQuantity, productStock);
-            return applicableQuantity / (buy + free);
+            int totalSets = applicableQuantity / (buy + free);
+            return totalSets * (buy + free);
         }
     },
-    TwoPlusOne(2, 1) {
+    TWO_PLUS_ONE(2, 1) {
         @Override
-        public int calcPromoSets(int orderQuantity, int productStock) {
+        public int calcPromoQuantity(int orderQuantity, int productStock) {
             int applicableQuantity = Math.min(orderQuantity, productStock);
-            return applicableQuantity / (buy + free);
+            int totalSets = applicableQuantity / (buy + free);
+            return totalSets * (buy + free);
         }
     };
 
@@ -26,9 +28,9 @@ public enum PromotionType {
 
     public static PromotionType from(final String buy) {
         if (Integer.parseInt(buy) == 1) {
-            return OnePlusOne;
+            return ONE_PLUS_ONE;
         }
-        return TwoPlusOne;
+        return TWO_PLUS_ONE;
     }
 
     public int getPromoQuantity() {
@@ -43,6 +45,5 @@ public enum PromotionType {
         return free;
     }
 
-
-    public abstract int calcPromoSets(int orderQuantity, int productStock);
+    public abstract int calcPromoQuantity(int orderQuantity, int productStock);
 }

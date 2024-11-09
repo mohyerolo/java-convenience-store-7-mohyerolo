@@ -19,16 +19,16 @@ public class Product {
         return promotion != null && promotion.isAvailablePromotion();
     }
 
-    public int calcPromotionSets(int orderQuantity) {
-        return promotion.calcPromotionSets(orderQuantity, quantity);
-    }
-
-    public int getPromotionQuantity(int promotionSets) {
-        return promotion.getPromoQuantity(promotionSets);
+    public int getPromotionQuantity(int orderQuantity) {
+        return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
 
     public boolean isProductQuantityAvailable(int orderQuantity) {
         return quantity >= orderQuantity;
+    }
+
+    public int getPromotionFreeQuantity() {
+        return promotion.getPromotionFreeProduct();
     }
 
     public String getName() {

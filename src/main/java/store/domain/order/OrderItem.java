@@ -1,6 +1,5 @@
 package store.domain.order;
 
-import store.constant.PromoProductStatus;
 import store.domain.product.Product;
 
 public class OrderItem {
@@ -18,26 +17,28 @@ public class OrderItem {
         return promotionProduct.isProductHavePromotion();
     }
 
-    public int calcPromotionSets() {
-        return promotionProduct.calcPromotionSets(quantity);
+    public boolean isPromotionWellApplied() {
+        return promotionProduct.getPromotionQuantity(quantity) == quantity;
     }
 
-    public PromoProductStatus getQuantityStatusAfterApplyPromotion(int promotionSets) {
-        int promotionQuantity = promotionProduct.getPromotionQuantity(promotionSets);
-        return getPromoProductQuantityStatus(promotionQuantity);
+    public int calcRemainQuantityAfterPromotionApply() {
+        int promotionQuantity = promotionProduct.getPromotionQuantity(quantity);
+        return quantity - promotionQuantity;
     }
 
-    private PromoProductStatus getPromoProductQuantityStatus(int orderPromotionQuantity) {
-        if (orderPromotionQuantity == quantity) {
-            return PromoProductStatus.PERFECT;
-        }
-        if (promotionProduct.isProductQuantityAvailable(quantity)) {
-            return PromoProductStatus.PROMO_PRODUCT_REMAIN;
-        }
-        return PromoProductStatus.PROMO_PRODUCT_STOCK_OUT;
+    public boolean isRemainQuantityCanAppliedPromotionProduct() {
+        return promotionProduct.isProductQuantityAvailable(quantity);
     }
 
-    public void buyMore(int add) {
-        this.quantity += add;
+    public String getOrderProductName() {
+        return productName;
+    }
+
+    public int getFreeProductQuantity() {
+        return promotionProduct.getPromotionFreeQuantity();
+    }
+
+    public void buyMorePromoProduct() {
+        this.quantity += promotionProduct.getPromotionFreeQuantity();
     }
 }

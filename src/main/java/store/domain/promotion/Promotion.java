@@ -32,12 +32,8 @@ public class Promotion {
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
-    public int calcPromotionSets(int orderQuantity, int productStock) {
-        return promotionType.calcPromoSets(orderQuantity, productStock);
-    }
-
-    public int getPromoQuantity(int promoSets) {
-        return promoSets * promotionType.getPromoQuantity();
+    public int calcPromotionQuantity(int orderQuantity, int productStock) {
+        return promotionType.calcPromoQuantity(orderQuantity, productStock);
     }
 
     public String getName() {
