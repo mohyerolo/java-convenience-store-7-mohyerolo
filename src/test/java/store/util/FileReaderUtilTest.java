@@ -8,13 +8,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class FileReaderUtilTest {
-    private static final String FILE_NOT_FOUND = "[ERROR] 파일을 찾을 수 없습니다!";
+    private static final String FILE_NOT_FOUND = "[ERROR] 파일을 찾을 수 없습니다";
     private static final String PRODUCTS_FILE = "products.md";
-    private static final int PRODUCTS_FILE_ROW = 17;
+    private static final int PRODUCTS_FILE_ROW = 16;
 
     private static final String PROMOTION_FILE = "promotions.md";
 
-    private static final int PROMOTION_FILE_ROW = 4;
+    private static final int PROMOTION_FILE_ROW = 3;
 
     @Test
     void 읽을_파일이_없음() {
