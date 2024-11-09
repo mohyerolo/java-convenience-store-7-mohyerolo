@@ -26,12 +26,8 @@ public class OrderItem {
         return quantity - promotionQuantity;
     }
 
-    public boolean isRemainQuantityCanAppliedPromotionProduct() {
-        return promotionProduct.isProductQuantityAvailable(quantity);
-    }
-
-    public String getOrderProductName() {
-        return productName;
+    public boolean isRemainQuantityCanAppliedPromotionProduct(int remainQuantity) {
+        return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
     }
 
     public int getFreeProductQuantity() {
@@ -40,5 +36,17 @@ public class OrderItem {
 
     public void buyMorePromoProduct() {
         this.quantity += promotionProduct.getPromotionFreeQuantity();
+    }
+
+    public void cancelOrder(int cancelQuantity) {
+        quantity -= cancelQuantity;
+    }
+
+    public String getOrderProductName() {
+        return productName;
+    }
+
+    public int getOrderQuantity() {
+        return quantity;
     }
 }

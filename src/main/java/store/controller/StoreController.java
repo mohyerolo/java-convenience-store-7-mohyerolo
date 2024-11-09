@@ -42,34 +42,36 @@ public class StoreController {
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
     }
 
-    private ProductStorageDto makeProductDto(Store store) {
+    private ProductStorageDto makeProductDto(final Store store) {
         return ProductStorageDto.from(store.getProductStorage());
     }
 
-    private Order takeOrder(Store store) {
+    private Order takeOrder(final Store store) {
         return executeWithRetry(() -> {
             String orders = inputView.readBuyProductAndQuantity();
             return orderService.takeOrder(orders, store);
         });
     }
 
-    private void readCustomersPromotionStatusOpinion(List<OrderItem> orderAppliedPromotions) {
+    private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderAppliedPromotions) {
         for (OrderItem orderItem : orderAppliedPromotions) {
             if (orderItem.isPromotionWellApplied()) {
                 continue;
             }
-            orderItemPromotionProductStockIsAvailable(orderItem);
+            handleRemainingProducts(orderItem);
         }
     }
 
-    private void orderItemPromotionProductStockIsAvailable(OrderItem orderItem) {
-        if (orderItem.isRemainQuantityCanAppliedPromotionProduct()) {
+    private void handleRemainingProducts(final OrderItem orderItem) {
+        int remainQuantityCantApplyPromo = orderItem.calcRemainQuantityAfterPromotionApply();
+        if (orderItem.isRemainQuantityCanAppliedPromotionProduct(remainQuantityCantApplyPromo)) {
             askAddProduct(orderItem);
             return;
         }
+        askRemainProductNoPromoFine(orderItem, remainQuantityCantApplyPromo);
     }
 
-    private void askAddProduct(OrderItem orderItem) {
+    private void askAddProduct(final OrderItem orderItem) {
         String productName = orderItem.getOrderProductName();
         int freeQuantity = orderItem.getFreeProductQuantity();
         String answer = readAvailablePromotionProductAdd(productName, freeQuantity);
@@ -79,7 +81,25 @@ public class StoreController {
         }
     }
 
-    private String readAvailablePromotionProductAdd(String productName, int freeQuantity) {
+    private void askRemainProductNoPromoFine(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
+        String productName = orderItem.getOrderProductName();
+        String answer = readNoPromoFine(productName, remainQuantityCantApplyPromo);
+        if (answer.equals(ANSWER_YES)) {
+            return;
+        }
+        handleCancelNoPromoProduct(orderItem, remainQuantityCantApplyPromo);
+    }
+
+    private void handleCancelNoPromoProduct(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
+        String answer = readCancelNOPromoQuantity(orderItem.getOrderProductName(), remainQuantityCantApplyPromo);
+        int cancelQuantity = remainQuantityCantApplyPromo;
+        if (answer.equals(ANSWER_NO)) {
+            cancelQuantity = orderItem.getOrderQuantity();
+        }
+        orderItem.cancelOrder(cancelQuantity);
+    }
+
+    private String readAvailablePromotionProductAdd(final String productName, final int freeQuantity) {
         return executeWithRetry(() -> {
             String customerAnswer = inputView.readAvailablePromotionProductAdd(productName, freeQuantity);
             DataTypeValidator.validateYOrN(customerAnswer);
@@ -87,7 +107,23 @@ public class StoreController {
         });
     }
 
-    private static <T> T executeWithRetry(Supplier<T> action) {
+    private String readNoPromoFine(final String productName, final int remainQuantity) {
+        return executeWithRetry(() -> {
+            String customerAnswer = inputView.readNoPromoFine(productName, remainQuantity);
+            DataTypeValidator.validateYOrN(customerAnswer);
+            return customerAnswer;
+        });
+    }
+
+    private String readCancelNOPromoQuantity(final String productName, final int remainQuantity) {
+        return executeWithRetry(() -> {
+            String customerAnswer = inputView.readCancelNoPromoQuantity(productName, remainQuantity);
+            DataTypeValidator.validateYOrN(customerAnswer);
+            return customerAnswer;
+        });
+    }
+
+    private static <T> T executeWithRetry(final Supplier<T> action) {
         while (true) {
             try {
                 return action.get();

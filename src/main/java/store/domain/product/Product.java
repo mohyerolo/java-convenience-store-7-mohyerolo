@@ -23,8 +23,10 @@ public class Product {
         return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
 
-    public boolean isProductQuantityAvailable(int orderQuantity) {
-        return quantity >= orderQuantity;
+    public boolean isProductQuantityAvailable(int orderQuantity, int remainQuantity) {
+        int promotionAppliedOrderQuantity = orderQuantity - remainQuantity;
+        int remainPromotionApplyQuantity = remainQuantity + getPromotionFreeQuantity();
+        return quantity - promotionAppliedOrderQuantity >= remainPromotionApplyQuantity;
     }
 
     public int getPromotionFreeQuantity() {

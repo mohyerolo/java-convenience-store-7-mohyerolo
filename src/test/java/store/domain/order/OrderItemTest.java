@@ -42,11 +42,12 @@ class OrderItemTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "4,true", "5,true", "12,false", "17,false" // 프로모션이 되는 콜라는 10개밖에 없음
+            "4,true", "5,true", "12,false", "17,false", // 프로모션이 되는 콜라는 10개밖에 없음
     })
     void 프로모션_진행후_남아있는_주문_프로모션_제품_안에서_구매가능한지(int orderQuantity, boolean isProductStockAvailable) {
         OrderItem orderItem = new OrderItem("콜라", orderQuantity, product);
-        assertThat(orderItem.isRemainQuantityCanAppliedPromotionProduct()).isEqualTo(isProductStockAvailable);
+        int remainQuantityAfterPromotionApply = orderItem.calcRemainQuantityAfterPromotionApply();
+        assertThat(orderItem.isRemainQuantityCanAppliedPromotionProduct(remainQuantityAfterPromotionApply)).isEqualTo(isProductStockAvailable);
     }
 
 }
