@@ -2,6 +2,7 @@ package store.controller;
 
 import store.domain.Store;
 import store.domain.order.Order;
+import store.domain.order.OrderAppliedPromotion;
 import store.domain.order.OrderItem;
 import store.dto.ProductStorageDto;
 import store.service.OrderService;
@@ -16,13 +17,14 @@ public class StoreController {
     private final InputView inputView;
     private final OutputView outputView;
     private final StoreService storeService;
-    private OrderService orderService;
+    private final OrderService orderService;
 
     public StoreController(final InputView inputView, final OutputView outputView,
                            final StoreService storeService, final OrderService orderService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.storeService = storeService;
+        this.orderService = orderService;
     }
 
     public void purchase() {
@@ -34,6 +36,7 @@ public class StoreController {
 
         Order order = takeOrder(store);
         List<OrderItem> promotionExistOrderItems = orderService.checkPromotionApplied(order);
+        List<OrderAppliedPromotion> orderAppliedPromotions = orderService.applyPromotionsToOrders(promotionExistOrderItems);
 
     }
 

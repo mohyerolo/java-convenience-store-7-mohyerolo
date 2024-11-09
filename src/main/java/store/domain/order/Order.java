@@ -1,7 +1,5 @@
 package store.domain.order;
 
-import store.domain.Store;
-
 import java.util.ArrayList;
 import java.util.List;
 

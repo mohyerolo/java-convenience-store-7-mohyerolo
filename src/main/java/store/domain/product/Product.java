@@ -16,7 +16,11 @@ public class Product {
     }
 
     public boolean isProductHavePromotion() {
-        return promotion != null;
+        return promotion != null && promotion.isAvailablePromotion();
+    }
+
+    public int calcPromotionSets(int orderQuantity) {
+        return promotion.calcPromotionSets(orderQuantity, quantity);
     }
 
     public String getName() {
