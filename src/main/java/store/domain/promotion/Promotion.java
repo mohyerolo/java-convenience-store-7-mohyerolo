@@ -28,7 +28,7 @@ public class Promotion {
     }
 
     public boolean isAvailablePromotion() {
-        if (promotionType.equals(PromotionType.NO_PROMO)) {
+        if (isNoPromotion()) {
             return false;
         }
 
@@ -37,17 +37,21 @@ public class Promotion {
     }
 
     public int calcPromotionQuantity(int orderQuantity, int productStock) {
-        if (promotionType.equals(PromotionType.NO_PROMO)) {
+        if (isNoPromotion()) {
             return 0;
         }
         return promotionType.calcPromoQuantity(orderQuantity, productStock);
     }
 
     public int calcPromoFreeQuantity(int orderQuantity, int productStock) {
-        if (promotionType.equals(PromotionType.NO_PROMO)) {
+        if (isNoPromotion()) {
             return 0;
         }
         return promotionType.calcPromoFreeQuantity(orderQuantity, productStock);
+    }
+
+    public boolean isNoPromotion() {
+        return promotionType.equals(PromotionType.NO_PROMO);
     }
 
     public String getName() {

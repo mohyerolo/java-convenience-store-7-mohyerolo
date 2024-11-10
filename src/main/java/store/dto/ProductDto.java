@@ -33,7 +33,7 @@ public class ProductDto {
     }
 
     private String makePromotion(Promotion promotion) {
-        if (promotion == null) {
+        if (promotion.isNoPromotion()) {
             return null;
         }
         return promotion.getName();

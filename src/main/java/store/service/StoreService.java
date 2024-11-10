@@ -1,6 +1,6 @@
 package store.service;
 
-import store.domain.*;
+import store.domain.Store;
 import store.domain.product.ProductStorage;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionFactory;
@@ -39,7 +39,7 @@ public class StoreService {
     private List<Promotion> parsePromotion(final List<String> promotionData) {
         return promotionData.stream()
                 .map(PromotionFactory::createPromotion)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
 }
