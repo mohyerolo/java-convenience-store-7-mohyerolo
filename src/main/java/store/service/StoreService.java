@@ -24,8 +24,7 @@ public class StoreService {
         ProductStorage productStorage = store.getProductStorage();
         for (OrderItem orderItem : order.getOrders()) {
             String productName = orderItem.getOrderProductName();
-            boolean promo = orderItem.isOrderItemHavingPromoQuantityBiggerThanPromoMet() && orderItem.isOrderProductHavePromotion();
-            productStorage.reduceProduct(productName, orderItem.getOrderQuantity(), promo);
+            productStorage.reduceProduct(productName, orderItem.getOrderQuantity());
         }
     }
 

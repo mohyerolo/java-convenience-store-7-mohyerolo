@@ -56,9 +56,7 @@ public class ReceiptDto {
     private static List<OrderItemDto> createOrderItemDtos(final Order order) {
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         for (OrderItem orderItem : order.getOrders()) {
-            if (orderItem.isOrderItemExists()) {
-                orderItemDtos.add(createOrderItemDto(orderItem));
-            }
+            orderItemDtos.add(createOrderItemDto(orderItem));
         }
         return orderItemDtos;
     }
