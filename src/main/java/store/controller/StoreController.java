@@ -4,6 +4,7 @@ import store.domain.Store;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
 import store.dto.ProductStorageDto;
+import store.dto.ReceiptDto;
 import store.service.OrderService;
 import store.service.StoreService;
 import store.validator.DataTypeValidator;
@@ -42,6 +43,7 @@ public class StoreController {
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
         orderService.applyPromotionsToOrder(order, promotionExistOrderItems);
 
+        printReceipt(order, readMembership());
     }
 
     private ProductStorageDto makeProductDto(final Store store) {
@@ -123,6 +125,19 @@ public class StoreController {
             DataTypeValidator.validateYOrN(customerAnswer);
             return customerAnswer;
         });
+    }
+
+    private boolean readMembership() {
+        return executeWithRetry(() -> {
+            String answer = inputView.readMembership();
+            DataTypeValidator.validateYOrN(answer);
+            return answer.equals(ANSWER_YES);
+        });
+    }
+
+    private void printReceipt(Order order, boolean membership) {
+        ReceiptDto receipt = ReceiptDto.from(order);
+        outputView.printReceipt(receipt, membership);
     }
 
     private static <T> T executeWithRetry(final Supplier<T> action) {

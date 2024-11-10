@@ -29,4 +29,9 @@ public class InputView {
         System.out.printf(INPUT_CANCEL_NO_PROMO_PRODUCT_QUANTITY, productName, noPromoQuantity);
         return Console.readLine();
     }
+
+    public String readMembership() {
+        System.out.println(INPUT_MEMBERSHIP);
+        return Console.readLine();
+    }
 }
