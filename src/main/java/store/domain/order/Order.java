@@ -29,4 +29,7 @@ public class Order {
         }
     }
 
+    public List<OrderItem> getOrders() {
+        return orders;
+    }
 }

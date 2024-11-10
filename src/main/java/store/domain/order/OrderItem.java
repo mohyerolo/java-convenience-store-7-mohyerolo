@@ -50,6 +50,14 @@ public class OrderItem {
         quantity = orderItem.quantity;
     }
 
+    public int calcOrderPrice(int calcQuantity) {
+        return promotionProduct.calcOrderPrice(calcQuantity);
+    }
+
+    public int calcPromoFreeQuantity() {
+        return promotionProduct.calcPromoFreeQuantity(quantity);
+    }
+
     public String getOrderProductName() {
         return productName;
     }
