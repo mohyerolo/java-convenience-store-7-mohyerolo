@@ -28,12 +28,26 @@ public class Promotion {
     }
 
     public boolean isAvailablePromotion() {
+        if (promotionType.equals(PromotionType.NO_PROMO)) {
+            return false;
+        }
+
         LocalDateTime now = DateTimes.now();
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
     public int calcPromotionQuantity(int orderQuantity, int productStock) {
+        if (promotionType.equals(PromotionType.NO_PROMO)) {
+            return 0;
+        }
         return promotionType.calcPromoQuantity(orderQuantity, productStock);
+    }
+
+    public int calcPromoFreeQuantity(int orderQuantity, int productStock) {
+        if (promotionType.equals(PromotionType.NO_PROMO)) {
+            return 0;
+        }
+        return promotionType.calcPromoFreeQuantity(orderQuantity, productStock);
     }
 
     public String getName() {

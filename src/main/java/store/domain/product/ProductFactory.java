@@ -32,9 +32,6 @@ public class ProductFactory {
     }
 
     private static Promotion findProductPromotion(String productPromotion, Promotions promotions) {
-        if (!productPromotion.equals("null")) {
-            return promotions.findPromotion(productPromotion);
-        }
-        return null;
+        return promotions.findPromotion(productPromotion);
     }
 }

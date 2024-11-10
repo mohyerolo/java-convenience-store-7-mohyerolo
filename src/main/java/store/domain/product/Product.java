@@ -16,7 +16,7 @@ public class Product {
     }
 
     public boolean isProductHavePromotion() {
-        return promotion != null && promotion.isAvailablePromotion();
+        return promotion.isAvailablePromotion();
     }
 
     public int getPromotionQuantity(int orderQuantity) {
@@ -31,6 +31,14 @@ public class Product {
 
     public int getPromotionFreeQuantity() {
         return promotion.getPromotionFreeProduct();
+    }
+
+    public int calcOrderPrice(int orderQuantity) {
+        return orderQuantity * price;
+    }
+
+    public int calcPromoFreeQuantity(int orderQuantity) {
+        return promotion.calcPromoFreeQuantity(orderQuantity, quantity);
     }
 
     public String getName() {
