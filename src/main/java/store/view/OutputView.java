@@ -11,6 +11,7 @@ import static store.view.OutputMessage.*;
 
 public class OutputView {
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private static final String MINUS = "-";
 
     public void printGreetings() {
         System.out.println(OUTPUT_GREETINGS);
@@ -112,13 +113,13 @@ public class OutputView {
 
     private int appendPromotionDiscountAmount(ReceiptDto receiptDto, StringBuilder sb) {
         int promotionDiscountAmount = receiptDto.calcPromotionDiscountAmount();
-        sb.append(String.format(PROMOTION_DISCOUNT, numberFormat.format(promotionDiscountAmount)));
+        sb.append(String.format(PROMOTION_DISCOUNT, MINUS + numberFormat.format(promotionDiscountAmount)));
         return promotionDiscountAmount;
     }
 
     private int appendMembershipDiscountAmount(ReceiptDto receiptDto, boolean membership, StringBuilder sb) {
         int membershipDiscountAmount = receiptDto.calcMembershipAmount(membership);
-        sb.append(String.format(MEMBERSHIP_DISCOUNT, numberFormat.format(membershipDiscountAmount)));
+        sb.append(String.format(MEMBERSHIP_DISCOUNT, MINUS + numberFormat.format(membershipDiscountAmount)));
         return membershipDiscountAmount;
     }
 }
