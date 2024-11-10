@@ -20,6 +20,9 @@ public class Product {
     }
 
     public int getPromotionQuantity(int orderQuantity) {
+        if (!isProductHavePromotion()) {
+           return 0;
+        }
         return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
 
@@ -38,6 +41,9 @@ public class Product {
     }
 
     public int calcPromoFreeQuantity(int orderQuantity) {
+        if (!isProductHavePromotion()) {
+            return 0;
+        }
         return promotion.calcPromoFreeQuantity(orderQuantity, quantity);
     }
 

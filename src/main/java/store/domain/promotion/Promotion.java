@@ -37,16 +37,10 @@ public class Promotion {
     }
 
     public int calcPromotionQuantity(int orderQuantity, int productStock) {
-        if (isNoPromotion()) {
-            return 0;
-        }
         return promotionType.calcPromoQuantity(orderQuantity, productStock);
     }
 
     public int calcPromoFreeQuantity(int orderQuantity, int productStock) {
-        if (isNoPromotion()) {
-            return 0;
-        }
         return promotionType.calcPromoFreeQuantity(orderQuantity, productStock);
     }
 

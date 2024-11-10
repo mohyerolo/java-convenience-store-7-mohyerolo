@@ -32,7 +32,9 @@ public class OutputView {
     public void printReceipt(ReceiptDto receiptDto, boolean membership) {
         StringBuilder sb = new StringBuilder();
         appendOrderHistory(receiptDto, sb);
-        appendPromotionHistory(receiptDto, sb);
+        if (!receiptDto.isPromotionExists()) {
+            appendPromotionHistory(receiptDto, sb);
+        }
         sb.append(RECEIPT_DIVIDER);
         appendAmountCalculateHistory(receiptDto, membership, sb);
         System.out.println(sb);

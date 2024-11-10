@@ -20,6 +20,11 @@ public class ReceiptDto {
         return new ReceiptDto(createOrderItemDtos(order));
     }
 
+    public boolean isPromotionExists() {
+        return orderItemDtos.stream()
+                .anyMatch(orderItemDto -> orderItemDto.getFreeQuantity() > 0);
+    }
+
     public int calcOrderTotalQuantity() {
         return orderItemDtos.stream()
                 .mapToInt(OrderItemDto::getQuantity)
@@ -73,5 +78,5 @@ public class ReceiptDto {
         }
         return memberShipDiscountAmount;
     }
-    
+
 }
