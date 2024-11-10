@@ -17,7 +17,7 @@ class OrderItemTest {
 
     @BeforeEach
     void setup() {
-        Promotion promotion = new Promotion("탄산2+2", PromotionType.TWO_PLUS_ONE,
+        Promotion promotion = new Promotion("탄산2+1", PromotionType.TWO_PLUS_ONE,
                 LocalDate.of(2024, 11, 1), LocalDate.of(2024, 12, 22));
         product = new Product("콜라", 1000, 10, promotion);
     }
