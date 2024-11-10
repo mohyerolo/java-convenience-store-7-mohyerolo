@@ -1,7 +1,9 @@
 package store.dto;
 
+import store.domain.product.Product;
 import store.domain.product.ProductStorage;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,14 +16,22 @@ public class ProductStorageDto {
     }
 
     public static ProductStorageDto from(ProductStorage productStorage) {
-        Map<String, List<ProductDto>> productsDto = productStorage.getOrganizedProducts().entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> entry.getValue().stream()
-                                .map(ProductDto::new)
-                                .collect(Collectors.toList())
-                ));
-        return new ProductStorageDto(productsDto);
+        return new ProductStorageDto(makeProductDto(productStorage.getOrganizedProducts()));
+    }
+
+    private static Map<String, List<ProductDto>> makeProductDto(final Map<String, List<Product>> products) {
+        Map<String, List<ProductDto>> productsDto = new LinkedHashMap<>();
+        for (Map.Entry<String, List<Product>> entry : products.entrySet()) {
+            List<ProductDto> productDtos = parseDto(entry);
+            productsDto.put(entry.getKey(), productDtos);
+        }
+        return productsDto;
+    }
+
+    private static List<ProductDto> parseDto(Map.Entry<String, List<Product>> entry) {
+        return entry.getValue().stream()
+                .map(ProductDto::new)
+                .collect(Collectors.toList());
     }
 
     public Map<String, List<ProductDto>> getProducts() {

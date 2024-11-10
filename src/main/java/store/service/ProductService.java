@@ -47,6 +47,6 @@ public class ProductService {
     }
 
     private boolean shouldAddDummyProduct(Map.Entry<String, List<Product>> entry) {
-        return entry.getValue().getFirst().getPromotion() != null && entry.getValue().size() == 1;
+        return entry.getValue().getFirst().isProductHavePromotion() && entry.getValue().size() == 1;
     }
 }

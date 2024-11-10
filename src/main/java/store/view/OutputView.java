@@ -32,7 +32,7 @@ public class OutputView {
     public void printReceipt(ReceiptDto receiptDto, boolean membership) {
         StringBuilder sb = new StringBuilder();
         appendOrderHistory(receiptDto, sb);
-        if (!receiptDto.isPromotionExists()) {
+        if (receiptDto.isPromotionExists()) {
             appendPromotionHistory(receiptDto, sb);
         }
         sb.append(RECEIPT_DIVIDER);
@@ -40,11 +40,11 @@ public class OutputView {
         System.out.println(sb);
     }
 
-    private String makeProductStatusSentence(ProductDto product) {
-        if (product.getQuantity() == 0) {
-            return makeStockOutSentence(product);
-        }
+    public void printNewLine() {
+        System.out.println();
+    }
 
+    private String makeProductStatusSentence(ProductDto product) {
         String defaultSentence = makeDefaultProductSentence(product);
         return appendPromotion(defaultSentence, product);
     }
@@ -56,12 +56,12 @@ public class OutputView {
         return sentence + " " + product.getPromotion();
     }
 
-    private String makeStockOutSentence(ProductDto product) {
-        return String.format(PRODUCT_STOCK_OUT_TEMPLATE, product.getName(), numberFormat.format(product.getPrice()));
-    }
-
     private String makeDefaultProductSentence(ProductDto product) {
-        return String.format(PRODUCT_TEMPLATE, product.getName(), numberFormat.format(product.getPrice()), product.getQuantity());
+        String quantity = numberFormat.format(product.getQuantity()) + "개";
+        if (product.getQuantity() == 0) {
+            quantity = PRODUCT_STOCK_OUT;
+        }
+        return String.format(PRODUCT_TEMPLATE, product.getName(), numberFormat.format(product.getPrice()), quantity);
     }
 
     private void appendOrderHistory(ReceiptDto receipt, StringBuilder sb) {
