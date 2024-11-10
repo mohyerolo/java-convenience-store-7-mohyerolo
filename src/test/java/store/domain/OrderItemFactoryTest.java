@@ -3,60 +3,27 @@ package store.domain;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import store.domain.order.OrderItem;
 import store.domain.order.OrderItemFactory;
 import store.service.StoreService;
+import store.util.OrderItemParser;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class OrderItemFactoryTest {
-
-    private static final String TYPE_ERROR = "형식";
-    private static final String NON_EXIST = "존재";
-    private static final String EXCEEDED_STOCK = "초과";
-
-    private final StoreService storeService = new StoreService();
-    private final Store store = storeService.makeConvenienceStore();
+    private final Store store = new StoreService().makeConvenienceStore();
 
     @Test
     void 주문_하나_생성_성공() {
-        assertThat(OrderItemFactory.createOrderItem("사이다-10", store))
+        assertThat(OrderItemFactory.createOrderItem(new String[]{"사이다", "10"}, store))
                 .isInstanceOf(OrderItem.class);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "10", "사이다", " ", "", "사디아-10-a",
-            "-10", "사이다", "사이다-", " -10", "사이다- ",
-            "사이다-a"
-    })
-    void 주문_상품_형식_에러(String input) {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.createOrderItem(input, store))
-                .withMessageContaining(TYPE_ERROR);
-
-    }
-
-    @Test
-    void 없는_상품_주문() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.createOrderItem("스모어초콜릿-1", store))
-                .withMessageContaining(NON_EXIST);
-    }
-
-    @Test
-    void 재고_초과() {
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> OrderItemFactory.createOrderItem("사이다-100", store))
-                .withMessageContaining(EXCEEDED_STOCK);
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"사이다-10,true", "감자칩-1,true", "물-1,false"})
+    @CsvSource(value = {"[사이다-10],true", "[감자칩-1],true", "[물-1],false"})
     void 주문_상품에_해당하는_프로모션이_들어감(String orderData, boolean promotion) {
-        OrderItem orderItem = OrderItemFactory.createOrderItem(orderData, store);
+        String[] orderFields = OrderItemParser.parseOrderItem(orderData, store);
+        OrderItem orderItem = OrderItemFactory.createOrderItem(orderFields, store);
         assertThat(orderItem.isOrderProductHavePromotion()).isEqualTo(promotion);
     }
 }

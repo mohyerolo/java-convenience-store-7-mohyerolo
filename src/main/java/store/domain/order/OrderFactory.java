@@ -2,6 +2,7 @@ package store.domain.order;
 
 import store.domain.Store;
 import store.exception.CustomIllegalArgException;
+import store.util.OrderItemParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,8 @@ public class OrderFactory {
     private static List<OrderItem> makeEachOrderItem(String[] splitOrder, Store store) {
         List<OrderItem> orderItems = new ArrayList<>();
         for (String orderItemData : splitOrder) {
-            OrderItem orderItem = OrderItemFactory.createOrderItem(orderItemData, store);
-            addOrUpdateOrderItems(orderItems, orderItem);
+            String[] orderFields = OrderItemParser.parseOrderItem(orderItemData, store);
+            addOrUpdateOrderItems(orderItems, orderFields, store);
         }
         return orderItems;
     }
@@ -41,17 +42,17 @@ public class OrderFactory {
         }
     }
 
-    private static void addOrUpdateOrderItems(List<OrderItem> orderItems, OrderItem createdOrderItem) {
-        Optional<OrderItem> alreadyExistingOrderItem = findAlreadyExistingOrderItem(orderItems, createdOrderItem.getOrderProductName());
-        alreadyExistingOrderItem.ifPresentOrElse(
-                firstReceivedOrderItem -> firstReceivedOrderItem.addDuplicatedOrderQuantity(createdOrderItem),
-                () -> orderItems.add(createdOrderItem)
-        );
+    private static void addOrUpdateOrderItems(final List<OrderItem> orderItems, final String[] orderItemFields, final Store store) {
+        findAlreadyExistingOrderItem(orderItems, orderItemFields[0])
+                .ifPresentOrElse(
+                        orderItem -> orderItem.addDuplicatingOrderQuantity(Integer.parseInt(orderItemFields[1])),
+                        () -> orderItems.add(OrderItemFactory.createOrderItem(orderItemFields, store))
+                );
     }
 
-    private static Optional<OrderItem> findAlreadyExistingOrderItem(List<OrderItem> orderItems, String productName) {
+    private static Optional<OrderItem> findAlreadyExistingOrderItem(final List<OrderItem> orderItems, final String productName) {
         return orderItems.stream()
-                .filter(orderItem -> orderItem.getOrderProductName().equals(productName))
+                .filter(orderItem -> orderItem.isNameDuplicated(productName))
                 .findFirst();
     }
 

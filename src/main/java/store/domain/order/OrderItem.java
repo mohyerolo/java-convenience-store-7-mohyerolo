@@ -17,6 +17,14 @@ public class OrderItem {
         return new OrderItem(productName, quantity, product);
     }
 
+    public boolean isNameDuplicated(String orderProductName) {
+        return productName.equals(orderProductName);
+    }
+
+    public void addDuplicatingOrderQuantity(int duplicatedOrderQuantity) {
+        quantity += duplicatedOrderQuantity;
+    }
+
     public boolean isOrderProductHavePromotion() {
         return promotionProduct.isProductHaveAvailablePromotion();
     }
@@ -40,10 +48,6 @@ public class OrderItem {
 
     public void cancelOrder(int cancelQuantity) {
         quantity -= cancelQuantity;
-    }
-
-    public void addDuplicatedOrderQuantity(OrderItem duplicatedOrderItem) {
-        quantity += duplicatedOrderItem.quantity;
     }
 
     public void applyOrderQuantityPromo(OrderItem orderItem) {
