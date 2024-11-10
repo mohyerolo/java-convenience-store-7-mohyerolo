@@ -2,8 +2,8 @@ package store.controller;
 
 import store.domain.Store;
 import store.domain.order.Order;
+import store.domain.order.OrderFactory;
 import store.domain.order.OrderItem;
-import store.service.OrderService;
 import store.validator.DataTypeValidator;
 import store.view.InputView;
 import store.view.OutputView;
@@ -16,55 +16,53 @@ public class OrderController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final OrderService orderService;
 
-    public OrderController(final InputView inputView, final OutputView outputView, final OrderService orderService) {
+    public OrderController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.orderService = orderService;
     }
 
     public Order takeOrder(final Store store) {
         Order order = createOrder(store);
         checkPromotion(order);
-        orderService.removeNonExistentOrderItem(order);
+        order.removeNonExistentOrderItem();
         return order;
     }
 
     public boolean checkOrderStillExists(final Order order) {
-        return orderService.checkOrderStillAvailable(order);
+        return order.isStillOrderExists();
     }
 
     private Order createOrder(final Store store) {
         return executeWithRetry(() -> {
             String orders = inputView.readBuyProductAndQuantity();
-            return orderService.createOrder(orders, store);
+            return OrderFactory.createOrder(orders, store);
         });
     }
 
     private void checkPromotion(final Order order) {
-        List<OrderItem> promotionExistOrderItems = orderService.checkPromotionExistingOrderItem(order);
+        List<OrderItem> promotionExistOrderItems = order.checkOrderItemHavingPromotion();
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
     }
 
     private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderExistingPromotions) {
         for (OrderItem orderItem : orderExistingPromotions) {
-            if (orderService.isQuantityBiggerThanPromo(orderItem, orderItem.getOrderQuantity())) {
+            if (orderItem.isRemainQuantityBiggerThanPromo()) {
                 handlePromotion(orderItem);
             }
         }
     }
 
     private void handlePromotion(final OrderItem orderItem) {
-        int remainQuantity = orderService.calcRemainQuantityAfterPromotionApply(orderItem);
-        boolean remainQuantityBiggerThanPromoBuyNeed = orderService.isQuantityBiggerThanPromo(orderItem, remainQuantity);
+        int remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
+        boolean remainQuantityBiggerThanPromoBuyNeed = orderItem.isRemainQuantityBiggerThanPromo(remainQuantity);
         if (remainQuantity != 0 && remainQuantityBiggerThanPromoBuyNeed) {
             handleRemainingProducts(orderItem, remainQuantity);
         }
     }
 
     private void handleRemainingProducts(final OrderItem orderItem, final int remainQuantity) {
-        if (orderService.isRemainingQuantityAvailableInPromoStock(orderItem, remainQuantity)) {
+        if (orderItem.isRemainingQuantityAvailableInPromoStock(remainQuantity)) {
             askAddProduct(orderItem);
             return;
         }
@@ -73,10 +71,11 @@ public class OrderController {
 
     private void askAddProduct(final OrderItem orderItem) {
         String productName = orderItem.getOrderProductName();
-        int freeQuantity = orderService.getOrderItemPromotionFreeQuantity(orderItem);
+        int freeQuantity = orderItem.getFreeProductQuantity();
+        ;
 
         if (readAvailablePromotionProductAdd(productName, freeQuantity)) {
-            orderService.buyPromoFreeProduct(orderItem);
+            orderItem.buyMorePromoProduct();
         }
     }
 
@@ -88,7 +87,7 @@ public class OrderController {
     }
 
     private void cancelNoPromoQuantity(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
-        orderService.cancelOrderItemAsQuantity(orderItem, remainQuantityCantApplyPromo);
+        orderItem.cancelOrder(remainQuantityCantApplyPromo);
         outputView.printCancelNoPromoQuantity(orderItem.getOrderProductName(), remainQuantityCantApplyPromo);
     }
 

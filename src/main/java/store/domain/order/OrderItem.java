@@ -34,6 +34,10 @@ public class OrderItem {
         return quantity - promotionQuantity;
     }
 
+    public boolean isRemainQuantityBiggerThanPromo() {
+        return promotionProduct.isQuantityAvailablePromotionMet(quantity);
+    }
+
     public boolean isRemainQuantityBiggerThanPromo(int remainQuantity) {
         return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
     }
