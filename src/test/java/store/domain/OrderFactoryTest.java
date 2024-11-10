@@ -3,7 +3,6 @@ package store.domain;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import store.domain.order.OrderFactory;
-import store.domain.product.ProductStorageFactory;
 import store.service.StoreService;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -13,7 +12,7 @@ class OrderFactoryTest {
     private final Store store;
 
     OrderFactoryTest() {
-        StoreService storeService = new StoreService(new ProductStorageFactory());
+        StoreService storeService = new StoreService();
         store = storeService.makeConvenienceStore();
     }
 

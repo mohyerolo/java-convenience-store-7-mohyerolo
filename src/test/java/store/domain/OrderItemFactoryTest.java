@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import store.domain.order.OrderItem;
 import store.domain.order.OrderItemFactory;
-import store.domain.product.ProductStorageFactory;
 import store.service.StoreService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +17,7 @@ class OrderItemFactoryTest {
     private static final String NON_EXIST = "존재";
     private static final String EXCEEDED_STOCK = "초과";
 
-    private final StoreService storeService = new StoreService(new ProductStorageFactory());
+    private final StoreService storeService = new StoreService();
     private final Store store = storeService.makeConvenienceStore();
 
     @Test
