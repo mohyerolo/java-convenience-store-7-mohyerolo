@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.promotion;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

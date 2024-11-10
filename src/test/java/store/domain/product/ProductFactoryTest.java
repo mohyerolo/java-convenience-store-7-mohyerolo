@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.product;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

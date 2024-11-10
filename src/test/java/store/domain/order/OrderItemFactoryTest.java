@@ -1,8 +1,9 @@
-package store.domain;
+package store.domain.order;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import store.domain.Store;
 import store.domain.order.OrderItem;
 import store.domain.order.OrderItemFactory;
 import store.service.StoreService;
