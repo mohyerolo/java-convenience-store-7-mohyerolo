@@ -44,6 +44,8 @@ public class StoreController {
         orderService.applyPromotionsToOrder(order, promotionExistOrderItems);
 
         printReceipt(order, readMembership());
+
+        storeService.updateProductStorage(store, order);
     }
 
     private ProductStorageDto makeProductDto(final Store store) {

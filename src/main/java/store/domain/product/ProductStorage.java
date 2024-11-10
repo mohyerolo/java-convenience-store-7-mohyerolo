@@ -1,7 +1,5 @@
 package store.domain.product;
 
-import store.domain.promotion.Promotion;
-
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +22,16 @@ public class ProductStorage {
 
     public Product getOrderProduct(String productName) {
         return organizedProducts.get(productName).getFirst();
+    }
+
+    public void reduceProduct(final String productName, final int quantity) {
+        int remainQuantity = quantity;
+        for (Product product : organizedProducts.get(productName)) {
+            remainQuantity = product.reduceStock(remainQuantity);
+            if (remainQuantity == 0) {
+                return;
+            }
+        }
     }
 
     public Map<String, List<Product>> getOrganizedProducts() {

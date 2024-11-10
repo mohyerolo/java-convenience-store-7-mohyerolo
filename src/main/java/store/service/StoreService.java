@@ -1,6 +1,8 @@
 package store.service;
 
 import store.domain.Store;
+import store.domain.order.Order;
+import store.domain.order.OrderItem;
 import store.domain.product.ProductStorage;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionFactory;
@@ -24,6 +26,14 @@ public class StoreService {
         Promotions promotions = makeConvenienceStorePromotion();
         ProductStorage productStorage = makeConvenienceStoreProduct(promotions);
         return new Store(productStorage, promotions);
+    }
+
+    public void updateProductStorage(Store store, Order order) {
+        ProductStorage productStorage = store.getProductStorage();
+        for (OrderItem orderItem : order.getOrders()) {
+            String productName = orderItem.getOrderProductName();
+            productStorage.reduceProduct(productName, orderItem.getOrderQuantity());
+        }
     }
 
     private ProductStorage makeConvenienceStoreProduct(final Promotions promotions) {

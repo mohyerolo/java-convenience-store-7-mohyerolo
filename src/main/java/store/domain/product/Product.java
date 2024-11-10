@@ -47,6 +47,15 @@ public class Product {
         return promotion.calcPromoFreeQuantity(orderQuantity, quantity);
     }
 
+    public int reduceStock(final int orderQuantity) {
+        int orderItemQuantity = orderQuantity;
+        while (quantity > 0 && orderItemQuantity > 0) {
+            quantity--;
+            orderItemQuantity--;
+        }
+        return orderItemQuantity;
+    }
+
     public String getName() {
         return name;
     }
