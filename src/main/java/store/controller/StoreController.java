@@ -34,7 +34,7 @@ public class StoreController {
         while (shopping) {
             printStore(store);
             Order order = orderController.takeOrder(store);
-            if (orderController.checkOrderStillAvailable(order)) {
+            if (orderController.checkOrderStillExists(order)) {
                 printReceipt(order, readMembership());
                 storeService.updateProductStorage(store, order);
             }

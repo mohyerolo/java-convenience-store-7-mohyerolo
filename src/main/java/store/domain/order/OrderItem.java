@@ -34,16 +34,12 @@ public class OrderItem {
         return quantity - promotionQuantity;
     }
 
-    public boolean isOrderItemHavingPromoQuantityBiggerThanPromoMet() {
-        return promotionProduct.isQuantityAvailablePromotionMet(quantity);
+    public boolean isRemainQuantityBiggerThanPromo(int remainQuantity) {
+        return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
     }
 
     public boolean isRemainingQuantityAvailableInPromoStock(int remainQuantity) {
         return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
-    }
-
-    public boolean isRemainQuantityMetPromoBuyNeed(int remainQuantity) {
-        return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
     }
 
     public int getFreeProductQuantity() {

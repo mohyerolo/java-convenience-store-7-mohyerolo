@@ -20,13 +20,12 @@ public class Order {
         return promotionAvailableOrderItems;
     }
 
-    public boolean checkOrderItemStillExists() {
-        for (OrderItem orderItem : orders) {
-            if (orderItem.isOrderItemExists()) {
-                return true;
-            }
-        }
-        return false;
+    public void removeNonExistentOrderItem() {
+        orders.removeIf(orderItem -> !orderItem.isOrderItemExists());
+    }
+
+    public boolean isStillOrderExists() {
+        return !orders.isEmpty();
     }
 
     public List<OrderItem> getOrders() {

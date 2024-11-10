@@ -50,11 +50,7 @@ public class OrderItemDto {
     }
 
     private int calcRemainQuantity(final OrderItem orderItem) {
-        int remainQuantity = orderItem.getOrderQuantity();
-        if (orderItem.isOrderProductHavePromotion()) {
-            remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
-        }
-        return remainQuantity;
+        return orderItem.calcRemainQuantityAfterPromotionApply();
     }
 
     private int calcTotalAmount(final OrderItem orderItem) {

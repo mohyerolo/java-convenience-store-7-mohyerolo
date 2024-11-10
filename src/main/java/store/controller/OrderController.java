@@ -27,10 +27,11 @@ public class OrderController {
     public Order takeOrder(final Store store) {
         Order order = createOrder(store);
         checkPromotion(order);
+        orderService.removeNonExistentOrderItem(order);
         return order;
     }
 
-    public boolean checkOrderStillAvailable(final Order order) {
+    public boolean checkOrderStillExists(final Order order) {
         return orderService.checkOrderStillAvailable(order);
     }
 
@@ -48,7 +49,7 @@ public class OrderController {
 
     private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderExistingPromotions) {
         for (OrderItem orderItem : orderExistingPromotions) {
-            if (orderService.isOrderItemHavingPromoQuantityBiggerThanPromoMet(orderItem)) {
+            if (orderService.isQuantityBiggerThanPromo(orderItem, orderItem.getOrderQuantity())) {
                 handlePromotion(orderItem);
             }
         }
@@ -56,7 +57,7 @@ public class OrderController {
 
     private void handlePromotion(final OrderItem orderItem) {
         int remainQuantity = orderService.calcRemainQuantityAfterPromotionApply(orderItem);
-        boolean remainQuantityBiggerThanPromoBuyNeed = orderService.isRemainQuantityMetPromoBuyNeed(orderItem, remainQuantity);
+        boolean remainQuantityBiggerThanPromoBuyNeed = orderService.isQuantityBiggerThanPromo(orderItem, remainQuantity);
         if (remainQuantity != 0 && remainQuantityBiggerThanPromoBuyNeed) {
             handleRemainingProducts(orderItem, remainQuantity);
         }

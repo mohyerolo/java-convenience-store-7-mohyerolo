@@ -17,16 +17,12 @@ public class OrderService {
         return order.checkOrderItemHavingPromotion();
     }
 
-    public boolean isOrderItemHavingPromoQuantityBiggerThanPromoMet(final OrderItem orderItem) {
-        return orderItem.isOrderItemHavingPromoQuantityBiggerThanPromoMet();
+    public boolean isQuantityBiggerThanPromo(final OrderItem orderItem, int remainQuantity) {
+        return orderItem.isRemainQuantityBiggerThanPromo(remainQuantity);
     }
 
     public int calcRemainQuantityAfterPromotionApply(final OrderItem orderItem) {
         return orderItem.calcRemainQuantityAfterPromotionApply();
-    }
-
-    public boolean isRemainQuantityMetPromoBuyNeed(final OrderItem orderItem, final int remainQuantity) {
-        return orderItem.isRemainQuantityMetPromoBuyNeed(remainQuantity);
     }
 
     public boolean isRemainingQuantityAvailableInPromoStock(final OrderItem orderItem, final int remainQuantity) {
@@ -45,8 +41,12 @@ public class OrderService {
         orderItem.cancelOrder(cancelQuantity);
     }
 
+    public void removeNonExistentOrderItem(final Order order) {
+        order.removeNonExistentOrderItem();
+    }
+
     public boolean checkOrderStillAvailable(final Order order) {
-        return order.checkOrderItemStillExists();
+        return order.isStillOrderExists();
     }
 
 }

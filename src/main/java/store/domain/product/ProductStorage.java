@@ -24,19 +24,13 @@ public class ProductStorage {
         return organizedProducts.get(productName).getFirst();
     }
 
-    public void reduceProduct(final String productName, final int quantity, final boolean promo) {
+    public void reduceProduct(final String productName, final int quantity) {
         int remainQuantity = quantity;
-        List<Product> products = organizedProducts.get(productName);
-        if (products.size() == 1) {
-            products.getFirst().reduceStock(remainQuantity);
-            return;
-        }
-
-        if (promo) {
-            remainQuantity = products.getFirst().reduceStock(remainQuantity);
-        }
-        if (remainQuantity != 0) {
-            products.getLast().reduceStock(remainQuantity);
+        for (Product product : organizedProducts.get(productName)) {
+            remainQuantity = product.reduceStock(remainQuantity);
+            if (remainQuantity == 0) {
+                return;
+            }
         }
     }
 
