@@ -4,7 +4,6 @@ import store.domain.order.OrderItem;
 
 public class OrderItemDto {
     private final String productName;
-
     private final int quantity;
     private final int freeQuantity;
     private final int remainQuantityNotAppliedPromotion;
@@ -51,7 +50,11 @@ public class OrderItemDto {
     }
 
     private int calcRemainQuantity(final OrderItem orderItem) {
-        return orderItem.calcRemainQuantityAfterPromotionApply();
+        int remainQuantity = orderItem.getOrderQuantity();
+        if (orderItem.isOrderProductHavePromotion()) {
+            remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
+        }
+        return remainQuantity;
     }
 
     private int calcTotalAmount(final OrderItem orderItem) {

@@ -20,13 +20,10 @@ public class Product {
     }
 
     public boolean isProductHaveAvailablePromotion() {
-        return promotion.isAvailablePromotion() && promotion.isPromotionConditionMet(quantity);
+        return promotion.isAvailablePromotion();
     }
 
     public int getPromotionQuantity(int orderQuantity) {
-        if (!isProductHaveAvailablePromotion()) {
-            return 0;
-        }
         return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
 
@@ -38,6 +35,10 @@ public class Product {
         int promotionAppliedOrderQuantity = orderQuantity - remainQuantity;
         int remainPromotionApplyQuantity = remainQuantity + getPromotionFreeQuantity();
         return quantity - promotionAppliedOrderQuantity >= remainPromotionApplyQuantity;
+    }
+
+    public boolean isQuantityAvailablePromotionMet(int quantity) {
+        return promotion.isPromotionConditionMet(quantity);
     }
 
     public int calcOrderPrice(int orderQuantity) {

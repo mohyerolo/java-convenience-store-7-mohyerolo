@@ -10,7 +10,7 @@ public class Order {
         this.orders = orders;
     }
 
-    public List<OrderItem> checkOrderItemCanAppliedPromotion() {
+    public List<OrderItem> checkOrderItemHavingPromotion() {
         List<OrderItem> promotionAvailableOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orders) {
             if (orderItem.isOrderProductHavePromotion()) {
@@ -21,21 +21,12 @@ public class Order {
     }
 
     public boolean checkOrderItemStillExists() {
-        for (OrderItem orderItem: orders) {
+        for (OrderItem orderItem : orders) {
             if (orderItem.isOrderItemExists()) {
                 return true;
             }
         }
         return false;
-    }
-
-    public void updateOrderStatus(List<OrderItem> promotionExistOrderItems) {
-        for (OrderItem promotionOrderItem : promotionExistOrderItems) {
-            orders.stream()
-                    .filter(orderItem -> orderItem.getOrderProductName().equals(promotionOrderItem.getOrderProductName()))
-                    .findFirst()
-                    .ifPresent(orderItem -> orderItem.applyOrderQuantityPromo(promotionOrderItem));
-        }
     }
 
     public List<OrderItem> getOrders() {

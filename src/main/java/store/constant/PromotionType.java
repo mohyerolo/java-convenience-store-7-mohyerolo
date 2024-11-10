@@ -27,8 +27,8 @@ public enum PromotionType {
         return free;
     }
 
-    public boolean productStockMeetPromotionCondition(int productStock) {
-        return productStock > buy;
+    public boolean quantityBiggerThanPromoBuyNeed(int quantity) {
+        return quantity >= buy;
     }
 
     public int calcPromoQuantity(int orderQuantity, int productStock) {

@@ -24,13 +24,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    public Order takeOrder(Store store) {
+    public Order takeOrder(final Store store) {
         Order order = createOrder(store);
         checkPromotion(order);
         return order;
     }
 
-    public boolean checkOrderStillAvailable(Order order) {
+    public boolean checkOrderStillAvailable(final Order order) {
         return orderService.checkOrderStillAvailable(order);
     }
 
@@ -41,23 +41,29 @@ public class OrderController {
         });
     }
 
-    private void checkPromotion(Order order) {
-        List<OrderItem> promotionExistOrderItems = orderService.checkPromotionApplied(order);
+    private void checkPromotion(final Order order) {
+        List<OrderItem> promotionExistOrderItems = orderService.checkPromotionExistingOrderItem(order);
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
-        orderService.applyPromotionsToOrder(order, promotionExistOrderItems);
     }
 
-    private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderAppliedPromotions) {
-        for (OrderItem orderItem : orderAppliedPromotions) {
-            int remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
-            if (remainQuantity != 0) {
-                handleRemainingProducts(orderItem, remainQuantity);
+    private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderExistingPromotions) {
+        for (OrderItem orderItem : orderExistingPromotions) {
+            if (orderService.isOrderItemHavingPromoQuantityBiggerThanPromoMet(orderItem)) {
+                handlePromotion(orderItem);
             }
         }
     }
 
+    private void handlePromotion(final OrderItem orderItem) {
+        int remainQuantity = orderService.calcRemainQuantityAfterPromotionApply(orderItem);
+        boolean remainQuantityBiggerThanPromoBuyNeed = orderService.isRemainQuantityMetPromoBuyNeed(orderItem, remainQuantity);
+        if (remainQuantity != 0 && remainQuantityBiggerThanPromoBuyNeed) {
+            handleRemainingProducts(orderItem, remainQuantity);
+        }
+    }
+
     private void handleRemainingProducts(final OrderItem orderItem, final int remainQuantity) {
-        if (orderItem.isRemainingQuantityAvailableInPromoStock(remainQuantity)) {
+        if (orderService.isRemainingQuantityAvailableInPromoStock(orderItem, remainQuantity)) {
             askAddProduct(orderItem);
             return;
         }
@@ -66,41 +72,38 @@ public class OrderController {
 
     private void askAddProduct(final OrderItem orderItem) {
         String productName = orderItem.getOrderProductName();
-        int freeQuantity = orderItem.getFreeProductQuantity();
-        String answer = readAvailablePromotionProductAdd(productName, freeQuantity);
+        int freeQuantity = orderService.getOrderItemPromotionFreeQuantity(orderItem);
 
-        if (answer.equals(ANSWER_YES)) {
-            orderItem.buyMorePromoProduct();
+        if (readAvailablePromotionProductAdd(productName, freeQuantity)) {
+            orderService.buyPromoFreeProduct(orderItem);
         }
     }
 
     private void askRemainProductNoPromoFine(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
         String productName = orderItem.getOrderProductName();
-        String answer = readNoPromoFine(productName, remainQuantityCantApplyPromo);
-        if (answer.equals(ANSWER_YES)) {
-            return;
+        if (!readNoPromoFine(productName, remainQuantityCantApplyPromo)) {
+            cancelNoPromoQuantity(orderItem, remainQuantityCantApplyPromo);
         }
-        cancelNoPromoQuantity(orderItem, remainQuantityCantApplyPromo);
     }
 
     private void cancelNoPromoQuantity(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
-        orderItem.cancelOrder(remainQuantityCantApplyPromo);
+        orderService.cancelOrderItemAsQuantity(orderItem, remainQuantityCantApplyPromo);
         outputView.printCancelNoPromoQuantity(orderItem.getOrderProductName(), remainQuantityCantApplyPromo);
     }
 
-    private String readAvailablePromotionProductAdd(final String productName, final int freeQuantity) {
+    private boolean readAvailablePromotionProductAdd(final String productName, final int freeQuantity) {
         return executeWithRetry(() -> {
             String customerAnswer = inputView.readAvailablePromotionProductAdd(productName, freeQuantity);
             DataTypeValidator.validateYOrN(customerAnswer);
-            return customerAnswer;
+            return customerAnswer.equals(ANSWER_YES);
         });
     }
 
-    private String readNoPromoFine(final String productName, final int remainQuantity) {
+    private boolean readNoPromoFine(final String productName, final int remainQuantity) {
         return executeWithRetry(() -> {
             String customerAnswer = inputView.readNoPromoFine(productName, remainQuantity);
             DataTypeValidator.validateYOrN(customerAnswer);
-            return customerAnswer;
+            return customerAnswer.equals(ANSWER_YES);
         });
     }
 

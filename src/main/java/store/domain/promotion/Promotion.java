@@ -31,13 +31,12 @@ public class Promotion {
         if (isNoPromotion()) {
             return false;
         }
-
         LocalDateTime now = DateTimes.now();
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
-    public boolean isPromotionConditionMet(int productStock) {
-        return promotionType.productStockMeetPromotionCondition(productStock);
+    public boolean isPromotionConditionMet(int quantity) {
+        return promotionType.quantityBiggerThanPromoBuyNeed(quantity);
     }
 
     public int calcPromotionQuantity(int orderQuantity, int productStock) {

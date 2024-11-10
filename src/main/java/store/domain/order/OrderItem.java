@@ -34,8 +34,16 @@ public class OrderItem {
         return quantity - promotionQuantity;
     }
 
+    public boolean isOrderItemHavingPromoQuantityBiggerThanPromoMet() {
+        return promotionProduct.isQuantityAvailablePromotionMet(quantity);
+    }
+
     public boolean isRemainingQuantityAvailableInPromoStock(int remainQuantity) {
         return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
+    }
+
+    public boolean isRemainQuantityMetPromoBuyNeed(int remainQuantity) {
+        return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
     }
 
     public int getFreeProductQuantity() {
@@ -48,10 +56,6 @@ public class OrderItem {
 
     public void cancelOrder(int cancelQuantity) {
         quantity -= cancelQuantity;
-    }
-
-    public void applyOrderQuantityPromo(OrderItem orderItem) {
-        quantity = orderItem.quantity;
     }
 
     public int calcOrderPrice(int calcQuantity) {
