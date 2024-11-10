@@ -20,6 +20,15 @@ public class Order {
         return promotionAvailableOrderItems;
     }
 
+    public boolean checkOrderItemStillExists() {
+        for (OrderItem orderItem: orders) {
+            if (orderItem.isOrderItemExists()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void updateOrderStatus(List<OrderItem> promotionExistOrderItems) {
         for (OrderItem promotionOrderItem : promotionExistOrderItems) {
             orders.stream()

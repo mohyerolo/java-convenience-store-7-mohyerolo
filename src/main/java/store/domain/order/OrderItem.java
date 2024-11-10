@@ -58,6 +58,10 @@ public class OrderItem {
         return promotionProduct.calcPromoFreeQuantity(quantity);
     }
 
+    public boolean isOrderItemExists() {
+        return quantity > 0;
+    }
+
     public String getOrderProductName() {
         return productName;
     }

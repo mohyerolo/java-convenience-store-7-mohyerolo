@@ -32,20 +32,33 @@ public class StoreController {
     }
 
     public void purchase() {
+        boolean shopping = true;
+        Store store = storeService.makeConvenienceStore();
+
+        while (shopping) {
+            printStore(store);
+            Order order = takeCustomerOrder(store);
+            if (order.checkOrderItemStillExists()) {
+                printReceipt(order, readMembership());
+                storeService.updateProductStorage(store, order);
+            }
+            shopping = readBuyMore();
+            outputView.printNewLine();
+        }
+    }
+
+    private void printStore(Store store) {
         outputView.printGreetings();
         outputView.printCurrentInventory();
-
-        Store store = storeService.makeConvenienceStore();
         outputView.printProductStorage(makeProductDto(store));
+    }
 
+    private Order takeCustomerOrder(Store store) {
         Order order = takeOrder(store);
         List<OrderItem> promotionExistOrderItems = orderService.checkPromotionApplied(order);
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
         orderService.applyPromotionsToOrder(order, promotionExistOrderItems);
-
-        printReceipt(order, readMembership());
-
-        storeService.updateProductStorage(store, order);
+        return order;
     }
 
     private ProductStorageDto makeProductDto(final Store store) {
@@ -142,6 +155,13 @@ public class StoreController {
         outputView.printReceipt(receipt, membership);
     }
 
+    private boolean readBuyMore() {
+        return executeWithRetry(() -> {
+            String answer = inputView.readBuyOtherProduct();
+            DataTypeValidator.validateYOrN(answer);
+            return answer.equals(ANSWER_YES);
+        });
+    }
     private static <T> T executeWithRetry(final Supplier<T> action) {
         while (true) {
             try {
