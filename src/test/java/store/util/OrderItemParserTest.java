@@ -22,7 +22,7 @@ class OrderItemParserTest {
             "-10", "사이다", "사이다-", " -10", "사이다- ",
             "사이다-a"
     })
-    void 주문_상품_형식_에러(String input) {
+    void 주문_상품_형식_에러(final String input) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> OrderItemParser.parseOrderItem(input, store))
                 .withMessageContaining(TYPE_ERROR);

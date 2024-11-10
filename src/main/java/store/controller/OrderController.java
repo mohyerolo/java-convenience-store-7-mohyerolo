@@ -56,6 +56,7 @@ public class OrderController {
     private void handlePromotion(final OrderItem orderItem) {
         int remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
         boolean remainQuantityBiggerThanPromoBuyNeed = orderItem.isRemainQuantityBiggerThanPromo(remainQuantity);
+
         if (remainQuantity != 0 && remainQuantityBiggerThanPromoBuyNeed) {
             handleRemainingProducts(orderItem, remainQuantity);
         }
@@ -72,7 +73,6 @@ public class OrderController {
     private void askAddProduct(final OrderItem orderItem) {
         String productName = orderItem.getOrderProductName();
         int freeQuantity = orderItem.getFreeProductQuantity();
-        ;
 
         if (readAvailablePromotionProductAdd(productName, freeQuantity)) {
             orderItem.buyMorePromoProduct();

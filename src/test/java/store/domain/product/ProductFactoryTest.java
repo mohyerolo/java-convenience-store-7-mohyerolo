@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import store.domain.product.Product;
-import store.domain.product.ProductFactory;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
 
@@ -29,7 +27,7 @@ class ProductFactoryTest {
             "사이다,,1,반짝할인",
             "사이다,1000,,반짝할인"
     })
-    void 상품생성_매개변수_문자열예_빈값(String input) {
+    void 상품생성_매개변수_문자열예_빈값(final String input) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> ProductFactory.createProduct(input, promotions));
     }
@@ -39,7 +37,7 @@ class ProductFactoryTest {
             "사이다,a,1,반짝할인",
             "사이다,1000,1a,반짝할인"
     })
-    void 상품_가격과_수량에_숫자가_아님(String input) {
+    void 상품_가격과_수량에_숫자가_아님(final String input) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> ProductFactory.createProduct(input, promotions));
     }
@@ -50,7 +48,7 @@ class ProductFactoryTest {
             "콜라,1000,10,null",
             "사이다,1000,5,반짝할인"
     })
-    void 상품_생성_성공(String input) {
+    void 상품_생성_성공(final String input) {
         assertThatNoException()
                 .isThrownBy(() -> ProductFactory.createProduct(input, promotions));
     }

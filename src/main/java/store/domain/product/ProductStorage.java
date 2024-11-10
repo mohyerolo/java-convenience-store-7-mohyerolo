@@ -10,21 +10,21 @@ public class ProductStorage {
         this.organizedProducts = organizedProducts;
     }
 
-    public boolean containsProduct(String productName) {
+    public boolean containsProduct(final String productName) {
         return organizedProducts.containsKey(productName);
     }
 
-    public boolean isProductStockAvailable(String productName, int requiredQuantity) {
+    public boolean isProductStockAvailable(final String productName, final int requiredQuantity) {
         List<Product> productsList = organizedProducts.get(productName);
         int productQuantity = productsList.stream().mapToInt(Product::getQuantity).sum();
         return productQuantity >= requiredQuantity;
     }
 
-    public Product getOrderProduct(String productName) {
+    public Product getOrderProduct(final String productName) {
         return organizedProducts.get(productName).getFirst();
     }
 
-    public void reduceProduct(final String productName, final int quantity) {
+    public void reduceProductStock(final String productName, final int quantity) {
         int remainQuantity = quantity;
         for (Product product : organizedProducts.get(productName)) {
             remainQuantity = product.reduceStock(remainQuantity);

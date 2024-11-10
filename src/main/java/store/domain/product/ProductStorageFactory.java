@@ -39,12 +39,12 @@ public class ProductStorageFactory {
         }
     }
 
-    private static boolean shouldAddDummyProduct(Map.Entry<String, List<Product>> entry) {
+    private static boolean shouldAddDummyProduct(final Map.Entry<String, List<Product>> entry) {
         return entry.getValue().getFirst()
                 .isProductHasPromotionNotNoPromoStatus() && entry.getValue().size() == 1;
     }
 
-    private static Product createDummyProduct(Product promoProduct, Promotion noPromotion) {
+    private static Product createDummyProduct(final Product promoProduct, final Promotion noPromotion) {
         return new Product(promoProduct.getName(), promoProduct.getPrice(), STOCK_OUT, noPromotion);
     }
 }

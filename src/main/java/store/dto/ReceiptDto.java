@@ -16,7 +16,7 @@ public class ReceiptDto {
         this.orderItemDtos = orderItemDtos;
     }
 
-    public static ReceiptDto from(Order order) {
+    public static ReceiptDto from(final Order order) {
         return new ReceiptDto(createOrderItemDtos(order));
     }
 

@@ -25,7 +25,7 @@ class OrderItemTest {
     @CsvSource(value = {
             "4,1", "5,2", "3,0", "12,3", "17,8" // 프로모션이 되는 콜라는 10개밖에 없음
     })
-    void 프로모션_진행후_남은_주문개수(int orderQuantity, int remainQuantity) {
+    void 프로모션_진행후_남은_주문개수(final int orderQuantity, final int remainQuantity) {
         OrderItem orderItem = OrderItem.of("콜라", orderQuantity, product);
         assertThat(orderItem.calcRemainQuantityAfterPromotionApply()).isEqualTo(remainQuantity);
     }
@@ -34,7 +34,7 @@ class OrderItemTest {
     @CsvSource(value = {
             "4,true", "5,true", "12,false", "17,false", // 프로모션이 되는 콜라는 10개밖에 없음
     })
-    void 프로모션_진행후_남아있는_주문_프로모션_제품_안에서_구매가능한지(int orderQuantity, boolean isProductStockAvailable) {
+    void 프로모션_진행후_남아있는_주문_프로모션_제품_안에서_구매가능한지(final int orderQuantity, final boolean isProductStockAvailable) {
         OrderItem orderItem = OrderItem.of("콜라", orderQuantity, product);
         int remainQuantityAfterPromotionApply = orderItem.calcRemainQuantityAfterPromotionApply();
         assertThat(orderItem.isRemainingQuantityAvailableInPromoStock(remainQuantityAfterPromotionApply)).isEqualTo(isProductStockAvailable);

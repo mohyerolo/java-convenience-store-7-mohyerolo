@@ -15,13 +15,13 @@ public class OrderFactory {
     private static final String ORDER_REG_EXP = "^\\[.+]$";
     private static final String INPUT_TYPE_ERROR = "올바르지 않은 형식으로 입력했습니다.";
 
-    public static Order createOrder(String orders, Store store) {
+    public static Order createOrder(final String orders, final Store store) {
         String[] splitOrder = parseOrders(orders);
         List<OrderItem> orderItems = makeEachOrderItem(splitOrder, store);
         return new Order(orderItems);
     }
 
-    private static List<OrderItem> makeEachOrderItem(String[] splitOrder, Store store) {
+    private static List<OrderItem> makeEachOrderItem(final String[] splitOrder, final Store store) {
         List<OrderItem> orderItems = new ArrayList<>();
         for (String orderItemData : splitOrder) {
             String[] orderFields = OrderItemParser.parseOrderItem(orderItemData, store);
@@ -30,13 +30,13 @@ public class OrderFactory {
         return orderItems;
     }
 
-    private static String[] parseOrders(String orders) {
+    private static String[] parseOrders(final String orders) {
         String[] splitOrder = orders.split(DELIMITER);
         validateEachOrder(splitOrder);
         return splitOrder;
     }
 
-    private static void validateEachOrder(String[] splitOrder) {
+    private static void validateEachOrder(final String[] splitOrder) {
         if (Arrays.stream(splitOrder).anyMatch(order -> !order.matches(ORDER_REG_EXP))) {
             throw new CustomIllegalArgException(INPUT_TYPE_ERROR);
         }

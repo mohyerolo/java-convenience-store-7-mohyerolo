@@ -14,12 +14,12 @@ public class InputView {
         return Console.readLine();
     }
 
-    public String readAvailablePromotionProductAdd(String productName, int free) {
+    public String readAvailablePromotionProductAdd(final String productName, final int free) {
         System.out.printf(INPUT_FREE_AVAILABLE, productName, free);
         return Console.readLine();
     }
 
-    public String readNoPromoFine(String productName, int noPromoQuantity) {
+    public String readNoPromoFine(final String productName, final int noPromoQuantity) {
         System.out.printf(INPUT_OUT_OF_STOCK_NO_PROMO, productName, noPromoQuantity);
         return Console.readLine();
     }

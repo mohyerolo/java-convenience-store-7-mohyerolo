@@ -14,15 +14,15 @@ public class Store {
         this.promotions = promotions;
     }
 
-    public boolean isStoreHaveProduct(String productName) {
+    public boolean isStoreHaveProduct(final String productName) {
         return productStorage.containsProduct(productName);
     }
 
-    public boolean isStockOk(String productName, int requiredQuantity) {
+    public boolean isStockOk(final String productName, final int requiredQuantity) {
         return productStorage.isProductStockAvailable(productName, requiredQuantity);
     }
 
-    public Product getOrderProduct(String productName) {
+    public Product getOrderProduct(final String productName) {
         return productStorage.getOrderProduct(productName);
     }
 

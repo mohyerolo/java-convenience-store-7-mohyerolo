@@ -2,8 +2,6 @@ package store.domain.product;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import store.domain.product.ProductStorage;
-import store.domain.product.ProductStorageFactory;
 import store.domain.promotion.Promotions;
 
 import java.util.List;

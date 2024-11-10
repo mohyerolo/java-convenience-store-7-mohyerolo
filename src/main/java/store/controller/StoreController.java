@@ -32,18 +32,22 @@ public class StoreController {
         Store store = storeService.makeConvenienceStore();
 
         while (shopping) {
-            printStore(store);
-            Order order = orderController.takeOrder(store);
-            if (orderController.checkOrderStillExists(order)) {
-                printReceipt(order, readMembership());
-                storeService.updateProductStorage(store, order);
-            }
+            exploreConvenienceStore(store);
             shopping = readBuyMore();
             outputView.printNewLine();
         }
     }
 
-    private void printStore(Store store) {
+    private void exploreConvenienceStore(final Store store) {
+        printStore(store);
+        Order order = orderController.takeOrder(store);
+        if (orderController.checkOrderStillExists(order)) {
+            printReceipt(order, readMembership());
+            storeService.updateProductStorage(store, order);
+        }
+    }
+
+    private void printStore(final Store store) {
         outputView.printGreetings();
         outputView.printCurrentInventory();
         outputView.printProductStorage(makeProductDto(store));
@@ -61,7 +65,7 @@ public class StoreController {
         });
     }
 
-    private void printReceipt(Order order, boolean membership) {
+    private void printReceipt(final Order order, final boolean membership) {
         ReceiptDto receipt = ReceiptDto.from(order);
         outputView.printReceipt(receipt, membership);
     }

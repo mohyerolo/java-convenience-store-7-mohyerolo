@@ -9,7 +9,7 @@ public class ProductDto {
     private final int quantity;
     private final String promotion;
 
-    public ProductDto(Product product) {
+    public ProductDto(final Product product) {
         this.name = product.getName();
         this.price = product.getPrice();
         this.quantity = product.getQuantity();
@@ -32,7 +32,7 @@ public class ProductDto {
         return promotion;
     }
 
-    private String makePromotion(Promotion promotion) {
+    private String makePromotion(final Promotion promotion) {
         if (promotion.isNoPromotion()) {
             return null;
         }

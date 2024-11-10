@@ -13,7 +13,7 @@ class PromotionTypeTest {
     @CsvSource(value = {
             "4,10,4", "7,10,6","12,10,10"
     })
-    void ONE_PLUS_ONE_할인_적용_세트(int orderQuantity, int productStock, int result) {
+    void ONE_PLUS_ONE_할인_적용_세트(final int orderQuantity, final int productStock, final int result) {
         assertThat(ONE_PLUS_ONE.calcPromoQuantity(orderQuantity, productStock)).isEqualTo(result);
     }
 
@@ -21,7 +21,7 @@ class PromotionTypeTest {
     @CsvSource(value = {
             "4,10,3", "6,10,6","12,10,9"
     })
-    void TWO_PLUS_ONE_할인_적용_세트(int orderQuantity, int productStock, int result) {
+    void TWO_PLUS_ONE_할인_적용_세트(final int orderQuantity, final int productStock, final int result) {
         assertThat(TWO_PLUS_ONE.calcPromoQuantity(orderQuantity, productStock)).isEqualTo(result);
     }
 

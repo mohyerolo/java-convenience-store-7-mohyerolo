@@ -15,7 +15,7 @@ public class ProductStorageDto {
         this.products = products;
     }
 
-    public static ProductStorageDto from(Store store) {
+    public static ProductStorageDto from(final Store store) {
         return new ProductStorageDto(makeProductDto(store.getProductStorage().getOrganizedProducts()));
     }
 
@@ -28,7 +28,7 @@ public class ProductStorageDto {
         return productsDto;
     }
 
-    private static List<ProductDto> parseDto(Map.Entry<String, List<Product>> entry) {
+    private static List<ProductDto> parseDto(final Map.Entry<String, List<Product>> entry) {
         return entry.getValue().stream()
                 .map(ProductDto::new)
                 .collect(Collectors.toList());

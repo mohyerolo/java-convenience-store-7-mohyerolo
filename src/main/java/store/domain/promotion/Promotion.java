@@ -19,7 +19,7 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    public boolean isSamePromotion(String productPromotion) {
+    public boolean isSamePromotion(final String productPromotion) {
         return name.equals(productPromotion);
     }
 
@@ -35,15 +35,15 @@ public class Promotion {
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
-    public boolean isPromotionConditionMet(int quantity) {
+    public boolean isPromotionConditionMet(final int quantity) {
         return promotionType.quantityBiggerThanPromoBuyNeed(quantity);
     }
 
-    public int calcPromotionQuantity(int orderQuantity, int productStock) {
+    public int calcPromotionQuantity(final int orderQuantity, final int productStock) {
         return promotionType.calcPromoQuantity(orderQuantity, productStock);
     }
 
-    public int calcPromoFreeQuantity(int orderQuantity, int productStock) {
+    public int calcPromoFreeQuantity(final int orderQuantity, final int productStock) {
         return promotionType.calcPromoFreeQuantity(orderQuantity, productStock);
     }
 

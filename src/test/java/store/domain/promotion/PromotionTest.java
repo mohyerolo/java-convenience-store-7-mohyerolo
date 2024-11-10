@@ -38,7 +38,7 @@ class PromotionTest {
     @CsvSource(value = {
             "9,10,10", "3,5,7", "3,6,3"
     })
-    void 프로모션_적용되는_상품_개수(int promotionAppliedQuantity, int orderQuantity, int productStock) {
+    void 프로모션_적용되는_상품_개수(final int promotionAppliedQuantity, final int orderQuantity, final int productStock) {
         Assertions.assertThat(promotion.calcPromotionQuantity(orderQuantity, productStock)).isEqualTo(promotionAppliedQuantity);
     }
 
@@ -46,7 +46,7 @@ class PromotionTest {
     @CsvSource(value = {
             "10,9,3", "5,4,1", "4,7,1"
     })
-    void 프로모션_적용돼서_무료로_받는_제품_개수(int productStock, int orderQuantity, int free) {
+    void 프로모션_적용돼서_무료로_받는_제품_개수(final int productStock, final int orderQuantity, final int free) {
         Assertions.assertThat(promotion.calcPromoFreeQuantity(orderQuantity, productStock)).isEqualTo(free);
     }
 }

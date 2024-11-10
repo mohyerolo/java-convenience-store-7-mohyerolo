@@ -12,19 +12,19 @@ public class OrderItemParser {
     private static final String NON_EXIST_PRODUCT = "존재하지 않는 상품입니다.";
     private static final String EXCEEDED_STOCK = "재고 수량을 초과하여 구매할 수 없습니다.";
 
-    public static String[] parseOrderItem(String orderData, Store store) {
+    public static String[] parseOrderItem(final String orderData, final Store store) {
         String[] orderFields = removeSquareBrackets(orderData).split(DELIMITER);
-        validateOrderDataType(orderFields, store);
+        validateOrderDataType(orderFields);
         validateOrderProductExist(orderFields[0], store);
         validateOrderQuantity(orderFields[0], orderFields[1], store);
         return orderFields;
     }
 
-    private static String removeSquareBrackets(String orderData) {
+    private static String removeSquareBrackets(final String orderData) {
         return orderData.replaceAll(PREFIX_SUFFIX_REPLACE_REG_EXP, "");
     }
 
-    private static void validateOrderDataType(String[] orderFields, Store store) {
+    private static void validateOrderDataType(final String[] orderFields) {
         if (orderFields.length != orderFieldSize) {
             throw new CustomIllegalArgException(INPUT_TYPE_ERROR);
         }
@@ -32,13 +32,13 @@ public class OrderItemParser {
         DataTypeValidator.validateInt(orderFields[1]);
     }
 
-    private static void validateOrderProductExist(String orderProductName, Store store) {
+    private static void validateOrderProductExist(final String orderProductName, final Store store) {
         if (!store.isStoreHaveProduct(orderProductName)) {
             throw new CustomIllegalArgException(NON_EXIST_PRODUCT);
         }
     }
 
-    private static void validateOrderQuantity(String productName, String quantity, Store store) {
+    private static void validateOrderQuantity(final String productName, final String quantity, final Store store) {
         if (!store.isStockOk(productName, Integer.parseInt(quantity))) {
             throw new CustomIllegalArgException(EXCEEDED_STOCK);
         }

@@ -27,7 +27,7 @@ class FileReaderUtilTest {
 
     @ParameterizedTest
     @ValueSource(strings = {PRODUCTS_FILE, PROMOTION_FILE})
-    void 파일_읽기_성공(String fileName) {
+    void 파일_읽기_성공(final String fileName) {
         assertThat(FileReaderUtil.readFile(fileName)).isNotEmpty();
     }
 

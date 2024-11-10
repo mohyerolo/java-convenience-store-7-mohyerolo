@@ -17,11 +17,11 @@ public class OrderItem {
         return new OrderItem(productName, quantity, product);
     }
 
-    public boolean isNameDuplicated(String orderProductName) {
+    public boolean isNameDuplicated(final String orderProductName) {
         return productName.equals(orderProductName);
     }
 
-    public void addDuplicatingOrderQuantity(int duplicatedOrderQuantity) {
+    public void addDuplicatingOrderQuantity(final int duplicatedOrderQuantity) {
         quantity += duplicatedOrderQuantity;
     }
 
@@ -38,11 +38,11 @@ public class OrderItem {
         return promotionProduct.isQuantityAvailablePromotionMet(quantity);
     }
 
-    public boolean isRemainQuantityBiggerThanPromo(int remainQuantity) {
+    public boolean isRemainQuantityBiggerThanPromo(final int remainQuantity) {
         return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
     }
 
-    public boolean isRemainingQuantityAvailableInPromoStock(int remainQuantity) {
+    public boolean isRemainingQuantityAvailableInPromoStock(final int remainQuantity) {
         return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
     }
 
@@ -54,11 +54,11 @@ public class OrderItem {
         this.quantity += promotionProduct.getPromotionFreeQuantity();
     }
 
-    public void cancelOrder(int cancelQuantity) {
+    public void cancelOrder(final int cancelQuantity) {
         quantity -= cancelQuantity;
     }
 
-    public int calcOrderPrice(int calcQuantity) {
+    public int calcOrderPrice(final int calcQuantity) {
         return promotionProduct.calcOrderPrice(calcQuantity);
     }
 

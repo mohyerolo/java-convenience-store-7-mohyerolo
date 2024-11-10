@@ -8,7 +8,7 @@ import store.validator.FileValidator;
 
 public class ProductFactory {
 
-    public static Product createProduct(String productData, Promotions promotions) {
+    public static Product createProduct(final String productData, final Promotions promotions) {
         String[] productField = prepareProductFields(productData);
 
         int price = ProductParser.parseProductNumData(productField[1]);
@@ -18,13 +18,13 @@ public class ProductFactory {
         return new Product(productField[0], price, quantity, promotion);
     }
 
-    private static String[] prepareProductFields(String productData) {
+    private static String[] prepareProductFields(final String productData) {
         String[] productField = ProductParser.parseFieldData(productData);
         validateProduct(productField);
         return productField;
     }
 
-    private static void validateProduct(String[] productField) {
+    private static void validateProduct(final String[] productField) {
         FileValidator.validateProductField(productField);
         DataTypeValidator.validateString(productField[0]);
         DataTypeValidator.validateString(productField[3]);
