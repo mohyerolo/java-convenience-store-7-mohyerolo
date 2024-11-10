@@ -106,16 +106,12 @@ public class StoreController {
         if (answer.equals(ANSWER_YES)) {
             return;
         }
-        handleCancelNoPromoProduct(orderItem, remainQuantityCantApplyPromo);
+        cancelNoPromoQuantity(orderItem, remainQuantityCantApplyPromo);
     }
 
-    private void handleCancelNoPromoProduct(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
-        String answer = readCancelNOPromoQuantity(orderItem.getOrderProductName(), remainQuantityCantApplyPromo);
-        int cancelQuantity = remainQuantityCantApplyPromo;
-        if (answer.equals(ANSWER_NO)) {
-            cancelQuantity = orderItem.getOrderQuantity();
-        }
-        orderItem.cancelOrder(cancelQuantity);
+    private void cancelNoPromoQuantity(final OrderItem orderItem, final int remainQuantityCantApplyPromo) {
+        orderItem.cancelOrder(remainQuantityCantApplyPromo);
+        outputView.printCancelNoPromoQuantity(orderItem.getOrderProductName(), remainQuantityCantApplyPromo);
     }
 
     private String readAvailablePromotionProductAdd(final String productName, final int freeQuantity) {
@@ -129,14 +125,6 @@ public class StoreController {
     private String readNoPromoFine(final String productName, final int remainQuantity) {
         return executeWithRetry(() -> {
             String customerAnswer = inputView.readNoPromoFine(productName, remainQuantity);
-            DataTypeValidator.validateYOrN(customerAnswer);
-            return customerAnswer;
-        });
-    }
-
-    private String readCancelNOPromoQuantity(final String productName, final int remainQuantity) {
-        return executeWithRetry(() -> {
-            String customerAnswer = inputView.readCancelNoPromoQuantity(productName, remainQuantity);
             DataTypeValidator.validateYOrN(customerAnswer);
             return customerAnswer;
         });

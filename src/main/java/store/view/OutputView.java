@@ -29,6 +29,10 @@ public class OutputView {
         System.out.println(sb);
     }
 
+    public void printCancelNoPromoQuantity(String productName, int cancelQuantity) {
+        System.out.printf((NO_PROMO_QUANTITY_CANCEL) + "%n", productName, numberFormat.format(cancelQuantity));
+    }
+
     public void printReceipt(ReceiptDto receiptDto, boolean membership) {
         StringBuilder sb = new StringBuilder();
         appendOrderHistory(receiptDto, sb);
