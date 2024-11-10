@@ -15,9 +15,7 @@ public class OrderFactory {
     private static final String INPUT_TYPE_ERROR = "올바르지 않은 형식으로 입력했습니다.";
 
     public static Order createOrder(String orders, Store store) {
-        String[] splitOrder = splitOrders(orders);
-        validateEachOrder(splitOrder);
-
+        String[] splitOrder = parseOrders(orders);
         List<OrderItem> orderItems = makeEachOrderItem(splitOrder, store);
         return new Order(orderItems);
     }
@@ -31,8 +29,10 @@ public class OrderFactory {
         return orderItems;
     }
 
-    private static String[] splitOrders(String orders) {
-        return orders.split(DELIMITER);
+    private static String[] parseOrders(String orders) {
+        String[] splitOrder = orders.split(DELIMITER);
+        validateEachOrder(splitOrder);
+        return splitOrder;
     }
 
     private static void validateEachOrder(String[] splitOrder) {

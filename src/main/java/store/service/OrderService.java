@@ -9,7 +9,7 @@ import java.util.List;
 
 public class OrderService {
 
-    public Order takeOrder(String order, Store store) {
+    public Order createOrder(String order, Store store) {
         return OrderFactory.createOrder(order, store);
     }
 
@@ -19,6 +19,10 @@ public class OrderService {
 
     public void applyPromotionsToOrder(Order order, List<OrderItem> promotionExistOrderItems) {
         order.updateOrderStatus(promotionExistOrderItems);
+    }
+
+    public boolean checkOrderStillAvailable(Order order) {
+        return order.checkOrderItemStillExists();
     }
 
 }

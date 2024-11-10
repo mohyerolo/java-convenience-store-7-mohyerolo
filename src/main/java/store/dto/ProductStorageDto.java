@@ -1,7 +1,7 @@
 package store.dto;
 
+import store.domain.Store;
 import store.domain.product.Product;
-import store.domain.product.ProductStorage;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,8 +15,8 @@ public class ProductStorageDto {
         this.products = products;
     }
 
-    public static ProductStorageDto from(ProductStorage productStorage) {
-        return new ProductStorageDto(makeProductDto(productStorage.getOrganizedProducts()));
+    public static ProductStorageDto from(Store store) {
+        return new ProductStorageDto(makeProductDto(store.getProductStorage().getOrganizedProducts()));
     }
 
     private static Map<String, List<ProductDto>> makeProductDto(final Map<String, List<Product>> products) {

@@ -30,14 +30,14 @@ public class Product {
         return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
 
+    public int getPromotionFreeQuantity() {
+        return promotion.getPromotionFreeProduct();
+    }
+
     public boolean isProductQuantityAvailable(int orderQuantity, int remainQuantity) {
         int promotionAppliedOrderQuantity = orderQuantity - remainQuantity;
         int remainPromotionApplyQuantity = remainQuantity + getPromotionFreeQuantity();
         return quantity - promotionAppliedOrderQuantity >= remainPromotionApplyQuantity;
-    }
-
-    public int getPromotionFreeQuantity() {
-        return promotion.getPromotionFreeProduct();
     }
 
     public int calcOrderPrice(int orderQuantity) {

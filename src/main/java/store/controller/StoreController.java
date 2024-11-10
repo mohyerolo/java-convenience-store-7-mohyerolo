@@ -2,16 +2,13 @@ package store.controller;
 
 import store.domain.Store;
 import store.domain.order.Order;
-import store.domain.order.OrderItem;
 import store.dto.ProductStorageDto;
 import store.dto.ReceiptDto;
-import store.service.OrderService;
 import store.service.StoreService;
 import store.validator.DataTypeValidator;
 import store.view.InputView;
 import store.view.OutputView;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 public class StoreController {

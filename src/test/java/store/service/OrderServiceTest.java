@@ -23,7 +23,7 @@ class OrderServiceTest {
     void setup() {
         StoreService storeService = new StoreService();
         Store store = storeService.makeConvenienceStore();
-        orders = orderService.takeOrder("[콜라-5],[사이다-2],[물-1]", store);
+        orders = orderService.createOrder("[콜라-5],[사이다-2],[물-1]", store);
     }
 
     @Test

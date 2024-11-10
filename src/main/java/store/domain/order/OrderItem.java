@@ -7,18 +7,18 @@ public class OrderItem {
     private int quantity;
     private final Product promotionProduct;
 
-    public OrderItem(final String productName, final int quantity, final Product product) {
+    private OrderItem(final String productName, final int quantity, final Product product) {
         this.productName = productName;
         this.quantity = quantity;
         this.promotionProduct = product;
     }
 
-    public boolean isOrderProductHavePromotion() {
-        return promotionProduct.isProductHaveAvailablePromotion();
+    public static OrderItem of(final String productName, final int quantity, final Product product) {
+        return new OrderItem(productName, quantity, product);
     }
 
-    public boolean isPromotionWellApplied() {
-        return promotionProduct.getPromotionQuantity(quantity) == quantity;
+    public boolean isOrderProductHavePromotion() {
+        return promotionProduct.isProductHaveAvailablePromotion();
     }
 
     public int calcRemainQuantityAfterPromotionApply() {
@@ -26,7 +26,7 @@ public class OrderItem {
         return quantity - promotionQuantity;
     }
 
-    public boolean isRemainQuantityCanAppliedPromotionProduct(int remainQuantity) {
+    public boolean isRemainingQuantityAvailableInPromoStock(int remainQuantity) {
         return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
     }
 
@@ -69,4 +69,5 @@ public class OrderItem {
     public int getOrderQuantity() {
         return quantity;
     }
+
 }

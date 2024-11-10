@@ -2,7 +2,6 @@ package store.domain.order;
 
 import store.domain.Store;
 import store.domain.product.Product;
-import store.domain.promotion.Promotion;
 import store.exception.CustomIllegalArgException;
 import store.validator.DataTypeValidator;
 
@@ -17,12 +16,14 @@ public class OrderItemFactory {
     public static OrderItem createOrderItem(String orderData, Store store) {
         String[] orderFields = splitAndValidateOrder(orderData, store);
         Product orderProduct = getOrderProduct(orderFields[0], store);
-        return new OrderItem(orderFields[0], Integer.parseInt(orderFields[1]), orderProduct);
+        return OrderItem.of(orderFields[0], Integer.parseInt(orderFields[1]), orderProduct);
     }
 
     private static String[] splitAndValidateOrder(String orderData, Store store) {
         String[] orderFields = removeSquareBrackets(orderData).split(DELIMITER);
-        validateOrder(orderFields, store);
+        validateOrderDataType(orderFields, store);
+        validateOrderProductExist(orderFields[0], store);
+        validateOrderQuantity(orderFields[0], orderFields[1], store);
         return orderFields;
     }
 
@@ -30,15 +31,12 @@ public class OrderItemFactory {
         return orderData.replaceAll(PREFIX_SUFFIX_REPLACE_REG_EXP, "");
     }
 
-    private static void validateOrder(String[] orderFields, Store store) {
+    private static void validateOrderDataType(String[] orderFields, Store store) {
         if (orderFields.length != orderFieldSize) {
             throw new CustomIllegalArgException(INPUT_TYPE_ERROR);
         }
         DataTypeValidator.validateString(orderFields[0]);
-        validateOrderProductExist(orderFields[0], store);
-
         DataTypeValidator.validateInt(orderFields[1]);
-        validateOrderQuantity(orderFields[0], orderFields[1], store);
     }
 
     private static void validateOrderProductExist(String orderProductName, Store store) {
