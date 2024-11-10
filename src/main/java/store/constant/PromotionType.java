@@ -27,6 +27,10 @@ public enum PromotionType {
         return free;
     }
 
+    public boolean productStockMeetPromotionCondition(int productStock) {
+        return productStock > buy;
+    }
+
     public int calcPromoQuantity(int orderQuantity, int productStock) {
         int totalSets = calcTotalPromotionSets(orderQuantity, productStock);
         return totalSets * (buy + free);

@@ -16,7 +16,7 @@ public class Product {
     }
 
     public boolean isProductHavePromotion() {
-        return promotion.isAvailablePromotion();
+        return promotion.isAvailablePromotion() && promotion.isPromotionConditionMet(quantity);
     }
 
     public int getPromotionQuantity(int orderQuantity) {

@@ -36,6 +36,10 @@ public class Promotion {
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
 
+    public boolean isPromotionConditionMet(int productStock) {
+        return promotionType.productStockMeetPromotionCondition(productStock);
+    }
+
     public int calcPromotionQuantity(int orderQuantity, int productStock) {
         return promotionType.calcPromoQuantity(orderQuantity, productStock);
     }
