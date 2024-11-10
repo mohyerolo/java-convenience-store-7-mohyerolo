@@ -15,13 +15,17 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public boolean isProductHavePromotion() {
+    public boolean isProductHasPromotionNotNoPromoStatus() {
+        return !promotion.isNoPromotion();
+    }
+
+    public boolean isProductHaveAvailablePromotion() {
         return promotion.isAvailablePromotion() && promotion.isPromotionConditionMet(quantity);
     }
 
     public int getPromotionQuantity(int orderQuantity) {
-        if (!isProductHavePromotion()) {
-           return 0;
+        if (!isProductHaveAvailablePromotion()) {
+            return 0;
         }
         return promotion.calcPromotionQuantity(orderQuantity, quantity);
     }
@@ -41,7 +45,7 @@ public class Product {
     }
 
     public int calcPromoFreeQuantity(int orderQuantity) {
-        if (!isProductHavePromotion()) {
+        if (!isProductHaveAvailablePromotion()) {
             return 0;
         }
         return promotion.calcPromoFreeQuantity(orderQuantity, quantity);

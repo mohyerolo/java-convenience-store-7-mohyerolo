@@ -2,23 +2,24 @@ package store.domain.product;
 
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
+import store.util.ProductParser;
 import store.validator.DataTypeValidator;
 import store.validator.FileValidator;
 
 public class ProductFactory {
-    private static final String DELIMITER = ",";
 
     public static Product createProduct(String productData, Promotions promotions) {
-        String[] productField = splitAndValidateProduct(productData);
-        int price = Integer.parseInt(productField[1]);
-        int quantity = Integer.parseInt(productField[2]);
-        Promotion promotion = findProductPromotion(productField[3], promotions);
+        String[] productField = prepareProductFields(productData);
+
+        int price = ProductParser.parseProductNumData(productField[1]);
+        int quantity = ProductParser.parseProductNumData(productField[2]);
+        Promotion promotion = promotions.findPromotion(productField[3]);
 
         return new Product(productField[0], price, quantity, promotion);
     }
 
-    private static String[] splitAndValidateProduct(String productData) {
-        String[] productField = productData.split(DELIMITER);
+    private static String[] prepareProductFields(String productData) {
+        String[] productField = ProductParser.parseFieldData(productData);
         validateProduct(productField);
         return productField;
     }
@@ -31,7 +32,4 @@ public class ProductFactory {
         DataTypeValidator.validateInt(productField[2]);
     }
 
-    private static Promotion findProductPromotion(String productPromotion, Promotions promotions) {
-        return promotions.findPromotion(productPromotion);
-    }
 }

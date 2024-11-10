@@ -16,7 +16,6 @@ import java.util.function.Supplier;
 
 public class StoreController {
     private static final String ANSWER_YES = "Y";
-    private static final String ANSWER_NO = "N";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -150,6 +149,7 @@ public class StoreController {
             return answer.equals(ANSWER_YES);
         });
     }
+
     private static <T> T executeWithRetry(final Supplier<T> action) {
         while (true) {
             try {

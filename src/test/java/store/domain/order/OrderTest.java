@@ -4,14 +4,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import store.domain.Store;
-import store.service.ProductService;
+import store.domain.product.ProductStorageFactory;
 import store.service.StoreService;
 
 class OrderTest {
     private final Store store;
 
     OrderTest() {
-        StoreService storeService = new StoreService(new ProductService());
+        StoreService storeService = new StoreService(new ProductStorageFactory());
         store = storeService.makeConvenienceStore();
     }
 

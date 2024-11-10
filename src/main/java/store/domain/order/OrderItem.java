@@ -14,7 +14,7 @@ public class OrderItem {
     }
 
     public boolean isOrderProductHavePromotion() {
-        return promotionProduct.isProductHavePromotion();
+        return promotionProduct.isProductHaveAvailablePromotion();
     }
 
     public boolean isPromotionWellApplied() {

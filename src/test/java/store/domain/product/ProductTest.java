@@ -26,7 +26,7 @@ class ProductTest {
         Promotion promotion = new Promotion("null", PromotionType.NO_PROMO,
                 LocalDate.of(2024, 11, 1), LocalDate.of(2024, 12, 22));
         Product product = new Product("물", 1000, 1, promotion);
-        Assertions.assertFalse(product.isProductHavePromotion());
+        Assertions.assertFalse(product.isProductHaveAvailablePromotion());
     }
 
     @Test
@@ -34,12 +34,12 @@ class ProductTest {
         Promotion promotion = new Promotion("MD추천상품", PromotionType.ONE_PLUS_ONE,
                 LocalDate.of(2024, 6, 1), LocalDate.of(2024, 7, 22));
         Product product = new Product("물", 1000, 4, promotion);
-        Assertions.assertFalse(product.isProductHavePromotion());
+        Assertions.assertFalse(product.isProductHaveAvailablePromotion());
     }
 
     @Test
     void 상품_프로모션_가능() {
-        Assertions.assertTrue(product.isProductHavePromotion());
+        Assertions.assertTrue(product.isProductHaveAvailablePromotion());
     }
 
     @Test

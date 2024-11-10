@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import store.domain.product.Product;
 import store.domain.product.ProductFactory;
 import store.domain.promotion.Promotion;
-import store.domain.promotion.PromotionFactory;
 import store.domain.promotion.Promotions;
 
 import java.util.List;
@@ -19,11 +18,8 @@ class ProductFactoryTest {
 
     @BeforeAll
     static void setup() {
-        Promotion promotion = PromotionFactory.createPromotion("탄산2+1,2,1,2024-01-01,2024-12-31");
-        Promotion promotion2 = PromotionFactory.createPromotion("MD추천상품,1,1,2024-01-01,2024-12-31");
-        Promotion promotion3 = PromotionFactory.createPromotion("반짝할인,1,1,2024-11-01,2024-11-30");
-        List<Promotion> promotionList = List.of(promotion, promotion2, promotion3);
-        promotions = new Promotions(promotionList);
+        List<String> promotionData = List.of("탄산2+1,2,1,2024-01-01,2024-12-31", "MD추천상품,1,1,2024-01-01,2024-12-31", "반짝할인,1,1,2024-11-01,2024-11-30");
+        promotions = Promotions.from(promotionData);
     }
 
     @ParameterizedTest

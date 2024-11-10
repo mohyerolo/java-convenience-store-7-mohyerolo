@@ -1,20 +1,19 @@
 package store.domain;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import store.domain.order.Order;
 import store.domain.order.OrderFactory;
-import store.service.ProductService;
+import store.domain.product.ProductStorageFactory;
 import store.service.StoreService;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 class OrderFactoryTest {
     private final Store store;
 
     OrderFactoryTest() {
-        StoreService storeService = new StoreService(new ProductService());
+        StoreService storeService = new StoreService(new ProductStorageFactory());
         store = storeService.makeConvenienceStore();
     }
 
