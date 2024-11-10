@@ -14,12 +14,13 @@ class FileReaderUtilTest {
 
     private static final String PROMOTION_FILE = "promotions.md";
 
-    private static final int PROMOTION_FILE_ROW = 3;
+    private static final String MISSING_FILE = "notFound.txt";
+    private static final int PROMOTION_FILE_ROW = 4;
 
     @Test
     void 읽을_파일이_없음() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> FileReaderUtil.readFile("notFound.txt"))
+                .isThrownBy(() -> FileReaderUtil.readFile(MISSING_FILE))
                 .withMessage(FILE_NOT_FOUND);
     }
 
@@ -36,7 +37,7 @@ class FileReaderUtilTest {
     }
 
     @Test
-    void prmotions_파일_읽어서_list반환() {
+    void promotions_파일_읽어서_list반환() {
         assertThat(FileReaderUtil.readFile(PROMOTION_FILE).size()).isEqualTo(PROMOTION_FILE_ROW);
     }
 }
