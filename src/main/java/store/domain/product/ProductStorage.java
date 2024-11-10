@@ -27,6 +27,11 @@ public class ProductStorage {
     public void reduceProduct(final String productName, final int quantity, final boolean promo) {
         int remainQuantity = quantity;
         List<Product> products = organizedProducts.get(productName);
+        if (products.size() == 1) {
+            products.getFirst().reduceStock(remainQuantity);
+            return;
+        }
+
         if (promo) {
             remainQuantity = products.getFirst().reduceStock(remainQuantity);
         }
