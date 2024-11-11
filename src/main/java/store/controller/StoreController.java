@@ -2,13 +2,15 @@ package store.controller;
 
 import store.domain.Store;
 import store.domain.order.Order;
-import store.dto.ProductStorageDto;
+import store.dto.ProductDto;
 import store.dto.ReceiptDto;
+import store.service.ProductService;
 import store.service.StoreService;
 import store.validator.DataTypeValidator;
 import store.view.InputView;
 import store.view.OutputView;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class StoreController {
@@ -18,6 +20,7 @@ public class StoreController {
     private final OutputView outputView;
     private final StoreService storeService;
     private final OrderController orderController;
+    private ProductService productService;
 
     public StoreController(final InputView inputView, final OutputView outputView,
                            final StoreService storeService, final OrderController orderController) {
@@ -30,6 +33,7 @@ public class StoreController {
     public void open() {
         boolean shopping = true;
         Store store = storeService.makeConvenienceStore();
+        productService = new ProductService(store.getProductStorage());
 
         while (shopping) {
             exploreConvenienceStore(store);
@@ -39,7 +43,7 @@ public class StoreController {
     }
 
     private void exploreConvenienceStore(final Store store) {
-        printStore(store);
+        printStore();
         Order order = orderController.takeOrder(store);
         if (orderController.checkOrderStillExists(order)) {
             printReceipt(order, readMembership());
@@ -47,14 +51,14 @@ public class StoreController {
         }
     }
 
-    private void printStore(final Store store) {
+    private void printStore() {
         outputView.printGreetings();
         outputView.printCurrentInventory();
-        outputView.printProductStorage(makeProductDto(store));
+        outputView.printProductStorage(makeProductDto());
     }
 
-    private ProductStorageDto makeProductDto(final Store store) {
-        return ProductStorageDto.from(store);
+    private List<ProductDto> makeProductDto() {
+        return productService.makeProductToDto();
     }
 
     private boolean readMembership() {

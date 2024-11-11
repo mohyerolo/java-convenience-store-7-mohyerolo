@@ -2,15 +2,17 @@ package store.view;
 
 import store.dto.OrderItemDto;
 import store.dto.ProductDto;
-import store.dto.ProductStorageDto;
 import store.dto.ReceiptDto;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 import static store.view.OutputMessage.*;
 
 public class OutputView {
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private static final int STOCK_OUT = 0;
+    private static final String UNIT = "개";
     private static final String MINUS = "-";
 
     public void printGreetings() {
@@ -21,12 +23,11 @@ public class OutputView {
         System.out.println(OUTPUT_CURRENT_PRODUCT_INVENTORY);
     }
 
-    public void printProductStorage(final ProductStorageDto storageDto) {
+    public void printProductStorage(final List<ProductDto> productDtos) {
         StringBuilder sb = new StringBuilder();
-        storageDto.getProducts().entrySet().stream()
-                .flatMap(entry -> entry.getValue().stream())
-                .map(this::makeProductStatusSentence)
-                .forEach(sentence -> sb.append(sentence).append('\n'));
+        for (ProductDto productDto : productDtos) {
+            sb.append(makeProductStatusSentence(productDto)).append('\n');
+        }
         System.out.println(sb);
     }
 
@@ -54,19 +55,19 @@ public class OutputView {
         return appendPromotion(defaultSentence, product);
     }
 
+    private String makeDefaultProductSentence(final ProductDto product) {
+        String quantity = numberFormat.format(product.getStock()) + UNIT;
+        if (product.getStock() == STOCK_OUT) {
+            quantity = PRODUCT_STOCK_OUT;
+        }
+        return String.format(PRODUCT_TEMPLATE, product.getName(), numberFormat.format(product.getPrice()), quantity);
+    }
+
     private String appendPromotion(final String sentence, final ProductDto product) {
         if (product.getPromotion() == null) {
             return sentence;
         }
         return sentence + " " + product.getPromotion();
-    }
-
-    private String makeDefaultProductSentence(final ProductDto product) {
-        String quantity = numberFormat.format(product.getQuantity()) + "개";
-        if (product.getQuantity() == 0) {
-            quantity = PRODUCT_STOCK_OUT;
-        }
-        return String.format(PRODUCT_TEMPLATE, product.getName(), numberFormat.format(product.getPrice()), quantity);
     }
 
     private void appendOrderHistory(final ReceiptDto receipt, final StringBuilder sb) {
