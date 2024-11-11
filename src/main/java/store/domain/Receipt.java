@@ -51,24 +51,24 @@ public class Receipt {
         return Math.min(totalDiscount, MEMBERSHIP_DISCOUNT_LIMIT);
     }
 
-    private int calcRemainQuantityMembershipAmount(OrderItem orderItem) {
+    private int calcRemainQuantityMembershipAmount(final OrderItem orderItem) {
         int remainQuantity = getRemainQuantity(orderItem);
         int price = getProductPrice(orderItem);
         return (int) (remainQuantity * price * MEMBERSHIP_DISCOUNT_PERCENTAGE);
     }
 
-    private int getRemainQuantity(OrderItem orderItem) {
+    private int getRemainQuantity(final OrderItem orderItem) {
         if (orderItem.isOrderProductHavePromotion()) {
             return orderItem.calcRemainQuantityAfterPromotionApply();
         }
         return orderItem.getOrderQuantity();
     }
 
-    private int getProductPrice(OrderItem orderItem) {
+    private int getProductPrice(final OrderItem orderItem) {
         return orderItem.calcOrderPrice() / orderItem.getOrderQuantity();
     }
 
-    private int calcPromoDiscountAmount(OrderItem orderItem) {
+    private int calcPromoDiscountAmount(final OrderItem orderItem) {
         int price = orderItem.calcOrderPrice() / orderItem.getOrderQuantity();
         return orderItem.calcPromoFreeQuantity() * price;
     }

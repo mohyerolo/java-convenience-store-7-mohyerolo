@@ -10,12 +10,12 @@ import java.util.List;
 
 public class ReceiptService {
 
-    public ReceiptDto makeReceiptToDto(Receipt receipt, boolean membership) {
+    public ReceiptDto makeReceiptToDto(final Receipt receipt, final boolean membership) {
         List<OrderItemDto> orderItemDtos = makeOrderItemToDto(receipt.getOrders());
         return new ReceiptDto(orderItemDtos, receipt, membership);
     }
 
-    private List<OrderItemDto> makeOrderItemToDto(List<OrderItem> orderItems) {
+    private List<OrderItemDto> makeOrderItemToDto(final List<OrderItem> orderItems) {
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         for (OrderItem orderItem : orderItems) {
             orderItemDtos.add(createOrderItemDto(orderItem));
@@ -23,7 +23,7 @@ public class ReceiptService {
         return orderItemDtos;
     }
 
-    private OrderItemDto createOrderItemDto(OrderItem orderItem) {
+    private OrderItemDto createOrderItemDto(final OrderItem orderItem) {
         String productName = orderItem.getOrderProductName();
         int orderQuantity = orderItem.getOrderQuantity();
         int freeQuantity = orderItem.calcPromoFreeQuantity();

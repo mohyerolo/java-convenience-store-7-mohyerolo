@@ -6,7 +6,7 @@ public class OrderItemDto {
     private final int freeQuantity;
     private final int totalAmount;
 
-    public OrderItemDto(String productName, int quantity, int freeQuantity, int totalAmount) {
+    public OrderItemDto(final String productName, final int quantity, final int freeQuantity, final int totalAmount) {
         this.productName = productName;
         this.quantity = quantity;
         this.freeQuantity = freeQuantity;

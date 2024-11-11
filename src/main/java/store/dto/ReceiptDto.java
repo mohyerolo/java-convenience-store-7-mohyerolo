@@ -5,14 +5,13 @@ import store.domain.Receipt;
 import java.util.List;
 
 public class ReceiptDto {
-
     private final List<OrderItemDto> orderItemDtos;
     private final int totalQuantity;
     private final int totalAmount;
     private final int promotionDiscount;
     private final int membershipDiscount;
 
-    public ReceiptDto(List<OrderItemDto> orderItemDtos, Receipt receipt, boolean membership) {
+    public ReceiptDto(final List<OrderItemDto> orderItemDtos, final Receipt receipt, final boolean membership) {
         this.orderItemDtos = orderItemDtos;
         totalQuantity = receipt.calcTotalQuantity();
         totalAmount = receipt.calcTotalAmount();

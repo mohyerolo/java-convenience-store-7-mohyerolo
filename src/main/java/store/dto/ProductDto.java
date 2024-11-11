@@ -9,19 +9,19 @@ public class ProductDto {
     private final int stock;
     private final String promotion;
 
-    private ProductDto(String name, int price, int stock, String promotion) {
+    private ProductDto(final String name, final int price, final int stock, final String promotion) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.promotion = promotion;
     }
 
-    public static ProductDto from(Product product) {
+    public static ProductDto from(final Product product) {
         String promotion = getPromotion(product.getPromotion());
         return new ProductDto(product.getName(), product.getPrice(), product.getQuantity(), promotion);
     }
 
-    private static String getPromotion(Promotion promotion) {
+    private static String getPromotion(final Promotion promotion) {
         if (promotion == null) {
             return null;
         }
