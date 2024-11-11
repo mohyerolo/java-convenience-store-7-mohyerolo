@@ -17,7 +17,11 @@ public class ReceiptDto {
     }
 
     public static ReceiptDto from(final Order order) {
-        return new ReceiptDto(createOrderItemDtos(order));
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
+        for (OrderItem orderItem : order.getOrders()) {
+            orderItemDtos.add(createOrderItemDto(orderItem));
+        }
+        return new ReceiptDto(orderItemDtos);
     }
 
     public boolean isPromotionExists() {
@@ -50,14 +54,6 @@ public class ReceiptDto {
     }
 
     public List<OrderItemDto> getOrderItemDtos() {
-        return orderItemDtos;
-    }
-
-    private static List<OrderItemDto> createOrderItemDtos(final Order order) {
-        List<OrderItemDto> orderItemDtos = new ArrayList<>();
-        for (OrderItem orderItem : order.getOrders()) {
-            orderItemDtos.add(createOrderItemDto(orderItem));
-        }
         return orderItemDtos;
     }
 

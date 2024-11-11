@@ -57,7 +57,7 @@ public class OrderItemDto {
     }
 
     private int calcTotalAmount(final OrderItem orderItem) {
-        return orderItem.calcOrderPrice(quantity);
+        return orderItem.calcOrderPrice();
     }
 
 }

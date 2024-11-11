@@ -45,7 +45,7 @@ public class StoreController {
     private void exploreConvenienceStore(final Store store) {
         printStore();
         Order order = orderController.takeOrder(store);
-        if (orderController.checkOrderStillExists(order)) {
+        if (orderController.hasValidOrderItems(order)) {
             printReceipt(order, readMembership());
             storeService.updateProductStorage(store, order);
         }

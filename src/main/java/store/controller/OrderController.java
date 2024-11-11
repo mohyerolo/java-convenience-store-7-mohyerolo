@@ -29,7 +29,7 @@ public class OrderController {
         return order;
     }
 
-    public boolean checkOrderStillExists(final Order order) {
+    public boolean hasValidOrderItems(final Order order) {
         return order.isStillOrderExists();
     }
 

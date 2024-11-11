@@ -64,8 +64,8 @@ public class OrderItem {
         quantity -= cancelQuantity;
     }
 
-    public int calcOrderPrice(final int calcQuantity) {
-        return promotionProduct.calcOrderPrice(calcQuantity);
+    public int calcOrderPrice() {
+        return promotionProduct.calcOrderPrice(quantity);
     }
 
     public int calcPromoFreeQuantity() {
