@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 class PromotionFactoryTest {
     private static final String PROMOTION_FILE_FIELD_ERROR = "프로모션 정보 파일에 name,buy,get,start_date,end_date 양식을 지키지 못한 라인이 있습니다.";
@@ -13,7 +14,7 @@ class PromotionFactoryTest {
     @Test
     void 프로모션_매개변수_필드_부족() {
         String input = "name,buy,get,start_date";
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> PromotionFactory.createPromotion(input))
                 .withMessageContaining(PROMOTION_FILE_FIELD_ERROR);
     }

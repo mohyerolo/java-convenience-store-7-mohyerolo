@@ -20,7 +20,7 @@ class FileReaderUtilTest {
 
     @Test
     void 읽을_파일이_없음() {
-        assertThatThrownBy(() -> FileReaderUtil.readFile(MISSING_FILE)).isInstanceOf(IOException.class);
+        assertThatThrownBy(() -> FileReaderUtil.readFile(MISSING_FILE)).isInstanceOf(IllegalStateException.class);
     }
 
 

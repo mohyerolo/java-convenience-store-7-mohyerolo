@@ -23,12 +23,20 @@ class ProductFactoryTest {
     @ParameterizedTest
     @ValueSource(strings = {
             ",1000,1,반짝할인",
-            "사이다,1000,1,",
             "사이다,,1,반짝할인",
             "사이다,1000,,반짝할인"
     })
-    void 상품생성_매개변수_문자열예_빈값(final String input) {
+    void 상품생성_매개변수_문자열에_빈값(final String input) {
         assertThatIllegalArgumentException()
+                .isThrownBy(() -> ProductFactory.createProduct(input, promotions));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "사이다,1000,1,,"
+    })
+    void 상품생성_매개변수_문자열_끝에_빈값(final String input) {
+        assertThatIllegalStateException()
                 .isThrownBy(() -> ProductFactory.createProduct(input, promotions));
     }
 
