@@ -3,16 +3,30 @@ package store.domain.product;
 import store.domain.promotion.Promotion;
 
 public class Product {
+    private final static int STOCK_OUT = 0;
+
     private final String name;
     private final int price;
     private int quantity;
     private final Promotion promotion;
 
-    public Product(final String name, final int price, final int quantity, final Promotion promotion) {
-        this.name = name;
+    private Product(final String name, final int price, final int quantity, final Promotion promotion) {
+        this.name= name;
         this.price = price;
         this.quantity = quantity;
         this.promotion = promotion;
+    }
+
+    public static Product of(final String name, final int price, final int quantity) {
+        return new Product(name, price, quantity, null);
+    }
+
+    public static Product promotionOf(final String name, final int price, final int quantity, final Promotion promotion) {
+        return new Product(name, price, quantity, promotion);
+    }
+
+    public static Product stockOutProductOf(final Product product) {
+        return new Product(product.name, product.price, STOCK_OUT, null);
     }
 
     public boolean isProductHasPromotion() {

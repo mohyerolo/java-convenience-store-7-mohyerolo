@@ -15,7 +15,7 @@ public class ProductFactory {
         int quantity = ProductParser.parseProductNumData(productField[2]);
         Promotion promotion = promotions.findPromotion(productField[3]);
 
-        return new Product(productField[0], price, quantity, promotion);
+        return creatProductWithPromotion(productField[0], price, quantity, promotion);
     }
 
     private static String[] prepareProductFields(final String productData) {
@@ -30,6 +30,13 @@ public class ProductFactory {
         DataTypeValidator.validateString(productField[3]);
         DataTypeValidator.validateInt(productField[1]);
         DataTypeValidator.validateInt(productField[2]);
+    }
+
+    private static Product creatProductWithPromotion(String name, int price, int quantity, Promotion promotion) {
+        if (promotion == null) {
+            return Product.of(name, price, quantity);
+        }
+        return Product.promotionOf(name, price, quantity, promotion);
     }
 
 }

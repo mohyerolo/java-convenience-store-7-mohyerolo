@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductStorageFactory {
-    private static final int STOCK_OUT = 0;
 
     public static ProductStorage parseProducts(final List<String> products, final Promotions promotions) {
         Map<String, List<Product>> organizedProducts = organizeProducts(products, promotions);
@@ -28,19 +27,20 @@ public class ProductStorageFactory {
 
     private static void addDummyProductForPromotionProductMissingNoPromoStock(final Map<String, List<Product>> organizedProducts) {
         for (Map.Entry<String, List<Product>> entry : organizedProducts.entrySet()) {
-            if (shouldAddDummyProduct(entry)) {
-                Product promoProduct = entry.getValue().getFirst();
+            List<Product> products = entry.getValue();
+            if (shouldAddDummyProduct(products)) {
+                Product promoProduct = products.getFirst();
                 entry.getValue().add(createDummyProduct(promoProduct));
             }
         }
     }
 
-    private static boolean shouldAddDummyProduct(final Map.Entry<String, List<Product>> entry) {
-        return entry.getValue().getFirst()
-                .isProductHasPromotion() && entry.getValue().size() == 1;
+    private static boolean shouldAddDummyProduct(final List<Product> products) {
+        return products.getFirst()
+                .isProductHasPromotion() && products.size() == 1;
     }
 
     private static Product createDummyProduct(final Product promoProduct) {
-        return new Product(promoProduct.getName(), promoProduct.getPrice(), STOCK_OUT, null);
+        return Product.stockOutProductOf(promoProduct);
     }
 }
