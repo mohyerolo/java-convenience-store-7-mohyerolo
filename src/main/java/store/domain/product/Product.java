@@ -15,12 +15,12 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public boolean isProductHasPromotionNotNoPromoStatus() {
-        return !promotion.isNoPromotion();
+    public boolean isProductHasPromotion() {
+        return promotion != null;
     }
 
     public boolean isProductHaveAvailablePromotion() {
-        return promotion.isAvailablePromotion();
+        return promotion != null && promotion.isAvailablePromotion();
     }
 
     public int getPromotionQuantity(final int orderQuantity) {

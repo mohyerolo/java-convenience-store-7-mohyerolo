@@ -28,9 +28,6 @@ public class Promotion {
     }
 
     public boolean isAvailablePromotion() {
-        if (isNoPromotion()) {
-            return false;
-        }
         LocalDateTime now = DateTimes.now();
         return now.isAfter(startDate.atStartOfDay()) && now.isBefore(endDate.atStartOfDay());
     }
@@ -45,10 +42,6 @@ public class Promotion {
 
     public int calcPromoFreeQuantity(final int orderQuantity, final int productStock) {
         return promotionType.calcPromoFreeQuantity(orderQuantity, productStock);
-    }
-
-    public boolean isNoPromotion() {
-        return promotionType.equals(PromotionType.NO_PROMO);
     }
 
     public String getName() {

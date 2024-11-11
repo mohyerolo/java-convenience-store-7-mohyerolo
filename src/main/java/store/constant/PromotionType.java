@@ -1,7 +1,6 @@
 package store.constant;
 
 public enum PromotionType {
-    NO_PROMO(0, 0),
     ONE_PLUS_ONE(1, 1),
     TWO_PLUS_ONE(2, 1);
 
@@ -17,10 +16,7 @@ public enum PromotionType {
         if (Integer.parseInt(buy) == 1) {
             return ONE_PLUS_ONE;
         }
-        if (Integer.parseInt(buy) == 2) {
-            return TWO_PLUS_ONE;
-        }
-        return NO_PROMO;
+        return TWO_PLUS_ONE;
     }
 
     public int getFree() {
