@@ -1,10 +1,12 @@
 package store.controller;
 
+import store.domain.Receipt;
 import store.domain.Store;
 import store.domain.order.Order;
 import store.dto.ProductDto;
 import store.dto.ReceiptDto;
 import store.service.ProductService;
+import store.service.ReceiptService;
 import store.service.StoreService;
 import store.validator.DataTypeValidator;
 import store.view.InputView;
@@ -21,6 +23,7 @@ public class StoreController {
     private final StoreService storeService;
     private final OrderController orderController;
     private ProductService productService;
+    private ReceiptService receiptService;
 
     public StoreController(final InputView inputView, final OutputView outputView,
                            final StoreService storeService, final OrderController orderController) {
@@ -34,6 +37,7 @@ public class StoreController {
         boolean shopping = true;
         Store store = storeService.makeConvenienceStore();
         productService = new ProductService(store.getProductStorage());
+        receiptService = new ReceiptService();
 
         while (shopping) {
             exploreConvenienceStore(store);
@@ -46,7 +50,8 @@ public class StoreController {
         printStore();
         Order order = orderController.takeOrder(store);
         if (orderController.hasValidOrderItems(order)) {
-            printReceipt(order, readMembership());
+            Receipt receipt = Receipt.from(order);
+            printReceipt(receipt, readMembership());
             storeService.updateProductStorage(store, order);
         }
     }
@@ -69,9 +74,9 @@ public class StoreController {
         });
     }
 
-    private void printReceipt(final Order order, final boolean membership) {
-        ReceiptDto receipt = ReceiptDto.from(order);
-        outputView.printReceipt(receipt, membership);
+    private void printReceipt(final Receipt receipt, final boolean membership) {
+        ReceiptDto receiptDto = receiptService.makeReceiptToDto(receipt, membership);
+        outputView.printReceipt(receiptDto);
     }
 
     private boolean readBuyMore() {

@@ -1,28 +1,16 @@
 package store.dto;
 
-import store.domain.order.OrderItem;
-
 public class OrderItemDto {
     private final String productName;
     private final int quantity;
     private final int freeQuantity;
-    private final int remainQuantityNotAppliedPromotion;
-    private final int totalOrderItemAmount;
+    private final int totalAmount;
 
-    public OrderItemDto(final OrderItem orderItem) {
-        this.productName = orderItem.getOrderProductName();
-        this.quantity = orderItem.getOrderQuantity();
-        this.freeQuantity = calcPromotionFreeQuantity(orderItem);
-        this.remainQuantityNotAppliedPromotion = calcRemainQuantity(orderItem);
-        this.totalOrderItemAmount = calcTotalAmount(orderItem);
-    }
-
-    public int calcOrderItemPromotionDiscount() {
-        return calcPerPrice() * freeQuantity;
-    }
-
-    public int calcNotPromotionAmount() {
-        return remainQuantityNotAppliedPromotion * calcPerPrice();
+    public OrderItemDto(String productName, int quantity, int freeQuantity, int totalAmount) {
+        this.productName = productName;
+        this.quantity = quantity;
+        this.freeQuantity = freeQuantity;
+        this.totalAmount = totalAmount;
     }
 
     public String getProductName() {
@@ -37,27 +25,7 @@ public class OrderItemDto {
         return freeQuantity;
     }
 
-    public int getTotalOrderItemAmount() {
-        return totalOrderItemAmount;
+    public int getTotalAmount() {
+        return totalAmount;
     }
-
-    private int calcPerPrice() {
-        return totalOrderItemAmount / quantity;
-    }
-
-    private int calcPromotionFreeQuantity(final OrderItem orderItem) {
-        return orderItem.calcPromoFreeQuantity();
-    }
-
-    private int calcRemainQuantity(final OrderItem orderItem) {
-        if (orderItem.isOrderProductHavePromotion()) {
-            return orderItem.calcRemainQuantityAfterPromotionApply();
-        }
-        return orderItem.getOrderQuantity();
-    }
-
-    private int calcTotalAmount(final OrderItem orderItem) {
-        return orderItem.calcOrderPrice();
-    }
-
 }

@@ -35,14 +35,14 @@ public class OutputView {
         System.out.printf((NO_PROMO_QUANTITY_CANCEL) + "%n", productName, numberFormat.format(cancelQuantity));
     }
 
-    public void printReceipt(final ReceiptDto receiptDto, final boolean membership) {
+    public void printReceipt(final ReceiptDto receiptDto) {
         StringBuilder sb = new StringBuilder();
         appendOrderHistory(receiptDto, sb);
         if (receiptDto.isPromotionExists()) {
             appendPromotionHistory(receiptDto, sb);
         }
         sb.append(RECEIPT_DIVIDER);
-        appendAmountCalculateHistory(receiptDto, membership, sb);
+        appendAmountCalculateHistory(receiptDto, sb);
         System.out.println(sb);
     }
 
@@ -79,7 +79,7 @@ public class OutputView {
 
     private String makeOrderItemSentence(final OrderItemDto orderItemDto) {
         return String.format(RECEIPT_ORDER_ITEM_FIELD, orderItemDto.getProductName(),
-                orderItemDto.getQuantity(), numberFormat.format(orderItemDto.getTotalOrderItemAmount()));
+                orderItemDto.getQuantity(), numberFormat.format(orderItemDto.getTotalAmount()));
     }
 
     private void appendPromotionHistory(final ReceiptDto receipt, final StringBuilder sb) {
@@ -96,30 +96,29 @@ public class OutputView {
         return String.format(RECEIPT_ORDER_PROMOTION_FIELD, productName, freeQuantity);
     }
 
-    private void appendAmountCalculateHistory(final ReceiptDto receipt, final boolean membership, final StringBuilder sb) {
+    private void appendAmountCalculateHistory(final ReceiptDto receipt, final StringBuilder sb) {
         int totalOrderAmount = appendToTalAmount(receipt, sb);
         int promotionDiscountAmount = appendPromotionDiscountAmount(receipt, sb);
-        int membershipDiscountAmount = appendMembershipDiscountAmount(receipt, membership, sb);
+        int membershipDiscountAmount = appendMembershipDiscountAmount(receipt, sb);
 
         int realAmount = totalOrderAmount - promotionDiscountAmount - membershipDiscountAmount;
         sb.append(String.format(REAL_AMOUNT_TO_PAY, numberFormat.format(realAmount)));
     }
 
     private int appendToTalAmount(final ReceiptDto receipt, final StringBuilder sb) {
-        int totalOrderQuantity = receipt.calcOrderTotalQuantity();
-        int totalOrderAmount = receipt.calcOrderTotalAmount();
-        sb.append(String.format(TOTAL_AMOUNT, totalOrderQuantity, numberFormat.format(totalOrderAmount)));
+        int totalOrderAmount = receipt.getTotalAmount();
+        sb.append(String.format(TOTAL_AMOUNT, receipt.getTotalQuantity(), numberFormat.format(totalOrderAmount)));
         return totalOrderAmount;
     }
 
     private int appendPromotionDiscountAmount(final ReceiptDto receiptDto, final StringBuilder sb) {
-        int promotionDiscountAmount = receiptDto.calcPromotionDiscountAmount();
+        int promotionDiscountAmount = receiptDto.getPromotionDiscount();
         sb.append(String.format(PROMOTION_DISCOUNT, MINUS + numberFormat.format(promotionDiscountAmount)));
         return promotionDiscountAmount;
     }
 
-    private int appendMembershipDiscountAmount(final ReceiptDto receiptDto, final boolean membership, final StringBuilder sb) {
-        int membershipDiscountAmount = receiptDto.calcMembershipAmount(membership);
+    private int appendMembershipDiscountAmount(final ReceiptDto receiptDto, final StringBuilder sb) {
+        int membershipDiscountAmount = receiptDto.getMembershipDiscount();
         sb.append(String.format(MEMBERSHIP_DISCOUNT, MINUS + numberFormat.format(membershipDiscountAmount)));
         return membershipDiscountAmount;
     }
