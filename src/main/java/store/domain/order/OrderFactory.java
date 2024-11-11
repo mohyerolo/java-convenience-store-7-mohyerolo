@@ -45,7 +45,7 @@ public class OrderFactory {
     private static void addOrUpdateOrderItems(final List<OrderItem> orderItems, final String[] orderItemFields, final Store store) {
         findAlreadyExistingOrderItem(orderItems, orderItemFields[0])
                 .ifPresentOrElse(
-                        orderItem -> orderItem.addDuplicatingOrderQuantity(Integer.parseInt(orderItemFields[1])),
+                        orderItem -> orderItem.increaseQuantity(Integer.parseInt(orderItemFields[1])),
                         () -> orderItems.add(OrderItemFactory.createOrderItem(orderItemFields, store))
                 );
     }

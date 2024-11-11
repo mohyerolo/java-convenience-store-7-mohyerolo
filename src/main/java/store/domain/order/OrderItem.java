@@ -21,8 +21,8 @@ public class OrderItem {
         return productName.equals(orderProductName);
     }
 
-    public void addDuplicatingOrderQuantity(final int duplicatedOrderQuantity) {
-        quantity += duplicatedOrderQuantity;
+    public void increaseQuantity(final int additionalQuantity) {
+        quantity += additionalQuantity;
     }
 
     public boolean isOrderProductHavePromotion() {
@@ -51,7 +51,8 @@ public class OrderItem {
     }
 
     public void buyMorePromoProduct() {
-        this.quantity += promotionProduct.getPromotionFreeQuantity();
+        int promotionFreeQuantity = promotionProduct.getPromotionFreeQuantity();
+        increaseQuantity(promotionFreeQuantity);
     }
 
     public void cancelOrder(final int cancelQuantity) {
