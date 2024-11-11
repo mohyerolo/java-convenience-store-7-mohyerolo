@@ -10,7 +10,7 @@ public class Order {
         this.orders = orders;
     }
 
-    public List<OrderItem> checkOrderItemHavingPromotion() {
+    public List<OrderItem> findOrderItemHavingPromotion() {
         List<OrderItem> promotionAvailableOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orders) {
             if (orderItem.isOrderProductHavePromotion()) {

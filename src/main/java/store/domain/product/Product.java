@@ -11,7 +11,7 @@ public class Product {
     private final Promotion promotion;
 
     private Product(final String name, final int price, final int quantity, final Promotion promotion) {
-        this.name= name;
+        this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.promotion = promotion;
@@ -51,7 +51,7 @@ public class Product {
         return quantity - promotionAppliedOrderQuantity >= remainPromotionApplyQuantity;
     }
 
-    public boolean isQuantityAvailablePromotionMet(final int quantity) {
+    public boolean isQuantityAvailablePromotionCondition(final int quantity) {
         return promotion.isPromotionConditionMet(quantity);
     }
 

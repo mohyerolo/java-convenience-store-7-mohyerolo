@@ -21,29 +21,30 @@ public class OrderItem {
         return productName.equals(orderProductName);
     }
 
-    public void increaseQuantity(final int additionalQuantity) {
-        quantity += additionalQuantity;
-    }
 
     public boolean isOrderProductHavePromotion() {
         return promotionProduct.isProductHaveAvailablePromotion();
     }
 
+    public boolean isRemainQuantityBiggerThanOrEqualPromoCondition() {
+        return promotionProduct.isQuantityAvailablePromotionCondition(quantity);
+    }
+
+    public boolean isRemainQuantityBiggerThanOrEqualPromoCondition(final int remainQuantity) {
+        return promotionProduct.isQuantityAvailablePromotionCondition(remainQuantity);
+    }
+
+    public boolean isMorePromoApplicableInProductStock(final int remainQuantity) {
+        return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
+    }
+
+    public boolean isOrderItemExists() {
+        return quantity > 0;
+    }
+
     public int calcRemainQuantityAfterPromotionApply() {
         int promotionQuantity = promotionProduct.getPromotionQuantity(quantity);
         return quantity - promotionQuantity;
-    }
-
-    public boolean isRemainQuantityBiggerThanPromo() {
-        return promotionProduct.isQuantityAvailablePromotionMet(quantity);
-    }
-
-    public boolean isRemainQuantityBiggerThanPromo(final int remainQuantity) {
-        return promotionProduct.isQuantityAvailablePromotionMet(remainQuantity);
-    }
-
-    public boolean isRemainingQuantityAvailableInPromoStock(final int remainQuantity) {
-        return promotionProduct.isProductQuantityAvailable(quantity, remainQuantity);
     }
 
     public int getFreeProductQuantity() {
@@ -53,6 +54,10 @@ public class OrderItem {
     public void buyMorePromoProduct() {
         int promotionFreeQuantity = promotionProduct.getPromotionFreeQuantity();
         increaseQuantity(promotionFreeQuantity);
+    }
+
+    public void increaseQuantity(final int additionalQuantity) {
+        quantity += additionalQuantity;
     }
 
     public void cancelOrder(final int cancelQuantity) {
@@ -65,10 +70,6 @@ public class OrderItem {
 
     public int calcPromoFreeQuantity() {
         return promotionProduct.calcPromoFreeQuantity(quantity);
-    }
-
-    public boolean isOrderItemExists() {
-        return quantity > 0;
     }
 
     public String getOrderProductName() {

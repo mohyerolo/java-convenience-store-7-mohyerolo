@@ -33,7 +33,7 @@ public class Promotion {
     }
 
     public boolean isPromotionConditionMet(final int quantity) {
-        return promotionType.quantityBiggerThanPromoBuyNeed(quantity);
+        return promotionType.quantityBiggerThanOrEqualPromoCondition(quantity);
     }
 
     public int calcPromotionQuantity(final int orderQuantity, final int productStock) {

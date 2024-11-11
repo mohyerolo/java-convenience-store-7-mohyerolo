@@ -2,7 +2,6 @@ package store.domain;
 
 import store.domain.product.Product;
 import store.domain.product.ProductStorage;
-import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
 
 public class Store {

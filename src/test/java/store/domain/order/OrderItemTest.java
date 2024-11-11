@@ -37,7 +37,7 @@ class OrderItemTest {
     void 프로모션_진행후_남아있는_주문_프로모션_제품_안에서_구매가능한지(final int orderQuantity, final boolean isProductStockAvailable) {
         OrderItem orderItem = OrderItem.of("콜라", orderQuantity, product);
         int remainQuantityAfterPromotionApply = orderItem.calcRemainQuantityAfterPromotionApply();
-        assertThat(orderItem.isRemainingQuantityAvailableInPromoStock(remainQuantityAfterPromotionApply)).isEqualTo(isProductStockAvailable);
+        assertThat(orderItem.isMorePromoApplicableInProductStock(remainQuantityAfterPromotionApply)).isEqualTo(isProductStockAvailable);
     }
 
 }

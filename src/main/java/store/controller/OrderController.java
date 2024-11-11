@@ -41,13 +41,13 @@ public class OrderController {
     }
 
     private void checkPromotion(final Order order) {
-        List<OrderItem> promotionExistOrderItems = order.checkOrderItemHavingPromotion();
+        List<OrderItem> promotionExistOrderItems = order.findOrderItemHavingPromotion();
         readCustomersPromotionStatusOpinion(promotionExistOrderItems);
     }
 
     private void readCustomersPromotionStatusOpinion(final List<OrderItem> orderExistingPromotions) {
         for (OrderItem orderItem : orderExistingPromotions) {
-            if (orderItem.isRemainQuantityBiggerThanPromo()) {
+            if (orderItem.isRemainQuantityBiggerThanOrEqualPromoCondition()) {
                 handlePromotion(orderItem);
             }
         }
@@ -55,15 +55,15 @@ public class OrderController {
 
     private void handlePromotion(final OrderItem orderItem) {
         int remainQuantity = orderItem.calcRemainQuantityAfterPromotionApply();
-        boolean remainQuantityBiggerThanPromoBuyNeed = orderItem.isRemainQuantityBiggerThanPromo(remainQuantity);
+        boolean morePromotionApplicable = orderItem.isRemainQuantityBiggerThanOrEqualPromoCondition(remainQuantity);
 
-        if (remainQuantity != 0 && remainQuantityBiggerThanPromoBuyNeed) {
+        if (remainQuantity != 0 && morePromotionApplicable) {
             handleRemainingProducts(orderItem, remainQuantity);
         }
     }
 
     private void handleRemainingProducts(final OrderItem orderItem, final int remainQuantity) {
-        if (orderItem.isRemainingQuantityAvailableInPromoStock(remainQuantity)) {
+        if (orderItem.isMorePromoApplicableInProductStock(remainQuantity)) {
             askAddProduct(orderItem);
             return;
         }

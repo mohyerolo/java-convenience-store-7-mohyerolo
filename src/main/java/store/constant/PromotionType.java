@@ -23,7 +23,7 @@ public enum PromotionType {
         return free;
     }
 
-    public boolean quantityBiggerThanPromoBuyNeed(final int quantity) {
+    public boolean quantityBiggerThanOrEqualPromoCondition(final int quantity) {
         return quantity >= buy;
     }
 
